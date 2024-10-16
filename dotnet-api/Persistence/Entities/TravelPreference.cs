@@ -2,7 +2,7 @@ namespace Persistence.Entities;
 
 using Common;
 
-public class TravelPreferences : BaseEntity
+public class TravelPreference : BaseEntity
 {
     public decimal BudgetMin { get; set; }
     

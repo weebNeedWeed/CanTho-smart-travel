@@ -10,5 +10,5 @@ public class User : BaseEntity
 
     public ICollection<PreferredDestination> PreferredDestinations { get; set; } = [];
     
-    public ICollection<TravelPreferences> TravelPreferences { get; set; } = [];
+    public ICollection<TravelPreference> TravelPreferences { get; set; } = [];
 }
