@@ -8,9 +8,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(o =>
+        services.AddDbContext<AppDbContext>(options =>
         {
-            o.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(
+                configuration.GetConnectionString("DefaultConnection"),
+                o => o.UseNetTopologySuite());
         });
         return services;
     }

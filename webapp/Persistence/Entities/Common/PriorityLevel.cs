@@ -1,4 +1,4 @@
-namespace Persistence.Common;
+namespace Persistence.Entities.Common;
 
 public enum PriorityLevel
 {

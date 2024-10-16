@@ -8,11 +8,13 @@ public class PreferredDestination : BaseEntity
     
     public PriorityLevel PriorityLevel { get; set; }
     
-    public int TravelDestinationId { get; set; }
+    public int DestinationId { get; set; }
 
-    public TravelDestination TravelDestination { get; set; } = null!;
+    public Destination Destination { get; set; } = null!;
     
     public int UserId { get; set; }
 
     public User User { get; set; } = null!;
+
+    public string Notes { get; set; } = null!;
 }

@@ -1,5 +1,7 @@
 namespace Persistence.Entities;
 
+using Common;
+
 public class DistrictCounty : BaseEntity
 {
     public string Name { get; set; } = null!;
