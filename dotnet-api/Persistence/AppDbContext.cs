@@ -3,6 +3,7 @@ namespace Persistence;
 using Entities;
 using Entities.Common;
 using Microsoft.EntityFrameworkCore;
+using Seedings;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
@@ -12,6 +13,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         base.OnModelCreating(modelBuilder);
             
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DependencyInjection).Assembly);
+
+        modelBuilder.Seed();
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
