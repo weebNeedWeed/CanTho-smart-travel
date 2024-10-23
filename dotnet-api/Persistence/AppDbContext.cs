@@ -36,7 +36,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Destination> Destinations { get; set; }
     public DbSet<DestinationCategory> DestinationCategories { get; set; }
     public DbSet<DistrictCounty> DistrictCounties { get; set; }
-    public DbSet<PreferredDestination> PreferredDestinations { get; set; }
     public DbSet<TravelPreference> TravelPreferences { get; set; }
+    public DbSet<Itinerary> Itineraries { get; set; }
+    public DbSet<ItineraryItem> ItineraryItems { get; set; }
     public DbSet<User> Users { get; set; }
 }

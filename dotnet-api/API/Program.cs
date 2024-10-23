@@ -1,19 +1,23 @@
+using API;
 using API.Areas.Admin.Common;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services.AddControllersWithViews();
-    builder.Services.AddPersistence(builder.Configuration);
-    
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services
+        .AddPersistence(builder.Configuration)
+        .AddAPI(builder.Configuration);
 }
 
 var app = builder.Build();
 {
     app.UseStaticFiles();
     app.UseRouting();
+
+    app.UseCors("cors");
+    
+    app.UseAuthentication();
+    app.UseAuthorization();
     
     app.MapControllerRoute(
         name: AdminAreaName.Value,

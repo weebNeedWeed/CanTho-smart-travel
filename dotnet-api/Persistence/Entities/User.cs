@@ -7,8 +7,8 @@ public class User : BaseEntity
     public string Username { get; set; } = null!;
 
     public string PasswordHash { get; set; } = null!;
-
-    public ICollection<PreferredDestination> PreferredDestinations { get; set; } = [];
     
-    public ICollection<TravelPreference> TravelPreferences { get; set; } = [];
+    public TravelPreference? TravelPreference { get; set; }
+    
+    public ICollection<Itinerary> Itineraries { get; set; } = [];
 }

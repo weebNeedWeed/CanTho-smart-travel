@@ -11,8 +11,6 @@ public class Destination : BaseEntity
 
     public string Description { get; set; } = null!;
     
-    public string Website { get; set; } = null!;
-    
     public ICollection<string> Tags { get; set; } = [];
 
     public ICollection<string> Amenities { get; set; } = [];
@@ -30,4 +28,8 @@ public class Destination : BaseEntity
     public CommuneWard CommuneWard { get; set; } = null!;
 
     public Point Location { get; set; } = null!;
+
+    public int DestinationCategoryId { get; set; }
+    
+    public DestinationCategory DestinationCategory { get; set; } = null!;
 }

@@ -11,6 +11,8 @@ public class CommuneWard : BaseEntity
     public int DistrictCountyId { get; set; }
 
     public DistrictCounty DistrictCounty { get; set; } = null!;
+
+    public ICollection<Destination> Destinations { get; set; } = [];
 }
 
 public enum CommuneWardType
