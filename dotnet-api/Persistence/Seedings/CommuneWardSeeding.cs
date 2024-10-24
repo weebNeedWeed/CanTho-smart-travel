@@ -5,6 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 internal static class CommuneWardSeeding
 {
+    public const int MyKhanhId = 69;
+    public const int NhonNghiaId = 70;
+    public const int ThoiAnDongId = 22;
+    public const int AnBinhId = 11;
+    public const int TanPhuId = 33;
+    
     public static ModelBuilder SeedCommuneWard(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CommuneWard>()
@@ -69,7 +75,7 @@ internal static class CommuneWardSeeding
             },
             new CommuneWard
             {
-                Id = 11, Name = "An Bình", Type = CommuneWardType.Ward,
+                Id = AnBinhId, Name = "An Bình", Type = CommuneWardType.Ward,
                 DistrictCountyId = DistrictCountySeeding.NinhKieuId
             },
 
@@ -126,7 +132,7 @@ internal static class CommuneWardSeeding
             },
             new CommuneWard
             {
-                Id = 22, Name = "Thới An Đông", Type = CommuneWardType.Ward,
+                Id = ThoiAnDongId, Name = "Thới An Đông", Type = CommuneWardType.Ward,
                 DistrictCountyId = DistrictCountySeeding.BinhThuyId
             },
             new CommuneWard
@@ -183,7 +189,7 @@ internal static class CommuneWardSeeding
             },
             new CommuneWard
             {
-                Id = 33, Name = "Tân Phú", Type = CommuneWardType.Ward,
+                Id = TanPhuId, Name = "Tân Phú", Type = CommuneWardType.Ward,
                 DistrictCountyId = DistrictCountySeeding.CaiRangId
             },
 
@@ -372,12 +378,12 @@ internal static class CommuneWardSeeding
             },
             new CommuneWard
             {
-                Id = 69, Name = "Mỹ Khánh", Type = CommuneWardType.Commune,
+                Id = MyKhanhId, Name = "Mỹ Khánh", Type = CommuneWardType.Commune,
                 DistrictCountyId = DistrictCountySeeding.PhongDienId
             },
             new CommuneWard
             {
-                Id = 70, Name = "Nhơn Nghĩa", Type = CommuneWardType.Commune,
+                Id = NhonNghiaId, Name = "Nhơn Nghĩa", Type = CommuneWardType.Commune,
                 DistrictCountyId = DistrictCountySeeding.PhongDienId
             },
 

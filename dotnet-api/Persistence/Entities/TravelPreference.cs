@@ -8,7 +8,7 @@ public class TravelPreference : BaseEntity
     
     public decimal BudgetMax { get; set; }
 
-    public ICollection<string> PreferenceTags { get; set; } = [];
+    public List<string> PreferenceTags { get; set; } = [];
     
     public int UserId { get; set; }
 

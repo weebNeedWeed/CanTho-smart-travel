@@ -11,7 +11,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddAPI(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddControllersWithViews();
+        services.AddControllersWithViews()
+            .AddJsonOptions(options => {
+                options.JsonSerializerOptions.Converters.Add(new NetTopologySuite.IO.Converters.GeoJsonConverterFactory());
+            });;
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         
@@ -25,7 +28,6 @@ public static class DependencyInjection
                     policy.AllowAnyHeader();
                 });
         });
-
 
         var jwtOptions = new JwtOptions();
         configuration.GetSection(JwtOptions.SectionName).Bind(jwtOptions);

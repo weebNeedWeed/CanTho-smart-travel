@@ -1,7 +1,10 @@
 import { Center, Tooltip, UnstyledButton, Stack, rem } from "@mantine/core";
 
 import { AiOutlineHome, AiOutlineLogout } from "react-icons/ai";
+import { GiPositionMarker } from "react-icons/gi";
 import classes from "./HomePage.module.css";
+import { LatLng } from "leaflet";
+import { useEffect, useState } from "react";
 
 interface NavbarLinkProps {
   icon: typeof AiOutlineHome;
@@ -24,7 +27,18 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
   );
 }
 
-export default function NavBar() {
+interface NavbarProps {
+  map?: L.Map;
+}
+
+export default function NavBar(props: NavbarProps) {
+  const [position, setPosition] = useState<LatLng | null>(null);
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+      setPosition(new LatLng(latitude, longitude));
+    });
+  }, []);
   return (
     <nav className={classes.navbar}>
       <Center>
@@ -36,9 +50,16 @@ export default function NavBar() {
           <NavbarLink
             icon={AiOutlineHome}
             label={"Home"}
-            active={true}
-            onClick={() => console.log(1)}
+            // active={true}
+            // onClick={() => console.log(1)}
           />
+          {props.map && (
+            <NavbarLink
+              icon={GiPositionMarker}
+              label={"Vị trí hiện tại"}
+              onClick={() => props.map!.flyTo(position!, 17)}
+            />
+          )}
         </Stack>
       </div>
 

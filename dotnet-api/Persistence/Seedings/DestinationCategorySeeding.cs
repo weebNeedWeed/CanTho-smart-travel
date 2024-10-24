@@ -18,37 +18,37 @@ internal static class DestinationCategorySeeding
     {
         modelBuilder.Entity<DestinationCategory>()
             .HasData(
-                new Destination
+                new DestinationCategory
                 {
                     Id = KhuDuLichId,
                     Name = "Khu du lịch"
                 },
-                new Destination
+                new DestinationCategory
                 {
                     Id = DiemDuLichId,
                     Name = "Điểm du lịch"
                 },
-                new Destination
+                new DestinationCategory
                 {
                     Id = DiemVuonId,
-                    Name = "Điềm vườn"
+                    Name = "Điểm vườn"
                 },
-                new Destination
+                new DestinationCategory
                 {
                     Id = AnUongId,
                     Name = "Ăn uống"
                 },
-                new Destination
+                new DestinationCategory
                 {
                     Id = MuaSamId,
                     Name = "Mua sắm"
                 },
-                new Destination
+                new DestinationCategory
                 {
                     Id = ChamSocSucKhoeId,
                     Name = "Chăm sóc sức khỏe"
                 },
-                new Destination
+                new DestinationCategory
                 {
                     Id = LuuTruId,
                     Name = "Lưu trú"

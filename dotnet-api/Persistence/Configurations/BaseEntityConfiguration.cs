@@ -12,8 +12,10 @@ where TEntity : BaseEntity
         builder.HasKey(x => x.Id);
         builder.ToTable(typeof(TEntity).Name);
         builder.Property(x => x.CreatedAt)
+            .HasColumnType("timestamp")
             .HasDefaultValueSql("NOW()::timestamp");
         builder.Property(x => x.UpdatedAt)
+            .HasColumnType("timestamp")
             .HasDefaultValueSql("NOW()::timestamp");
     }
 }

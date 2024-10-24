@@ -23,6 +23,7 @@ var app = builder.Build();
         name: AdminAreaName.Value,
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+    app.UseStaticFiles();
     app.MapControllers();
 
     if (app.Environment.IsDevelopment())
