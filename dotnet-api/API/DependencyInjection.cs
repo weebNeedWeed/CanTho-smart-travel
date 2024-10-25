@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace API;
 
 using System.Text;
@@ -12,9 +14,13 @@ public static class DependencyInjection
     public static IServiceCollection AddAPI(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllersWithViews()
-            .AddJsonOptions(options => {
-                options.JsonSerializerOptions.Converters.Add(new NetTopologySuite.IO.Converters.GeoJsonConverterFactory());
-            });;
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.Converters.Add(
+                    new NetTopologySuite.IO.Converters.GeoJsonConverterFactory());
+            });
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         

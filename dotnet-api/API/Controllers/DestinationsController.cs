@@ -22,7 +22,11 @@ public class DestinationsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllDests()
     {
-        var dests = await _appDbContext.Destinations.ToListAsync();
+        var dests = await _appDbContext.Destinations
+            .Include(x => x.DestinationCategory)
+            .Include(x => x.CommuneWard)
+            .ThenInclude(x => x.DistrictCounty)
+            .ToListAsync();
         return Ok(dests);
     }
     

@@ -34,7 +34,7 @@ export default function HomePage() {
         </MapContainer>
       </div>
 
-      <DestinationList />
+      <DestinationList map={map} />
     </div>
   );
 }

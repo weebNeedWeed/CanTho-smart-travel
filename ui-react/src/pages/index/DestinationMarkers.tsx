@@ -38,7 +38,6 @@ function getIcon(destinationCategoryId: number) {
     icon: "user",
     prefix: "fa",
     markerColor: "red",
-    spin: true,
   };
 
   switch (destinationCategoryId) {

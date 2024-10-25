@@ -17,7 +17,7 @@ internal static class DestinationSeeding
                 {
                     Id = 1,
                     Name = "Cty TNHH Du lịch Sinh Thái Mỹ Khánh",
-                    Address = "335 Lộ Vòng Cung, Xã Mỹ Khánh",
+                    Address = "335 Lộ Vòng Cung",
                     Description = "Vườn du lịch Mỹ Khánh là một điểm du lịch sinh thái nổi tiếng tại Cần Thơ, nơi du khách có thể trải nghiệm không gian miền Tây sông nước đặc trưng. Với diện tích rộng lớn, khu vườn kết hợp giữa thiên nhiên xanh mát và các hoạt động văn hóa truyền thống như đờn ca tài tử, tham quan nhà cổ, trải nghiệm làm chủ điền. Du khách có thể thưởng thức các loại trái cây miền nhiệt đới tươi ngon ngay tại vườn, khám phá các làng nghề truyền thống, và tham gia vào nhiều hoạt động giải trí thú vị. Đây là điểm đến lý tưởng để thư giãn và tận hưởng không gian văn hóa đậm đà bản sắc Nam Bộ.",
                     Tags = new List<string> 
                     { 

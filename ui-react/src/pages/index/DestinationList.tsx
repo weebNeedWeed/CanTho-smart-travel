@@ -10,8 +10,13 @@ import useDestCategories from "../../hooks/useDestCategories";
 
 import { useEffect, useState } from "react";
 import { defaultDestinationApiClient } from "../../helpers/DestinationApiClient";
+import DestinationCard from "./DestinationCard";
 
-export default function DestinationList() {
+interface DestinationListProps {
+  map: L.Map | null;
+}
+
+export default function DestinationList({ map }: DestinationListProps) {
   const {
     data: destCatsData,
     isError: isDestCatsError,
@@ -41,8 +46,8 @@ export default function DestinationList() {
   }, [destCatsData, isDestCatsError, isDestCatsLoading]);
 
   return (
-    <div className="z-20 absolute h-screen max-h-screen left-20 top-0 p-4 bg-white shadow-lg shadow-gray-400 flex flex-col">
-      <SearchInput className="w-80 mb-4" />
+    <div className="z-20 absolute w-96 max-w-96 h-screen max-h-screen left-20 top-0 p-4 bg-white shadow-lg shadow-gray-400 flex flex-col">
+      <SearchInput className="w-full mb-4" />
 
       <div className="w-full h-full overflow-auto scrollbar">
         <Accordion defaultValue="1">
@@ -53,7 +58,11 @@ export default function DestinationList() {
                 <Accordion.Control>{cat.name}</Accordion.Control>
                 <Accordion.Panel>
                   {destsMap.get(cat.id)?.map((dest: any) => (
-                    <div key={dest.id}>{dest.name}</div>
+                    <DestinationCard
+                      key={dest.id}
+                      destination={dest}
+                      map={map}
+                    />
                   ))}
                 </Accordion.Panel>
               </Accordion.Item>
