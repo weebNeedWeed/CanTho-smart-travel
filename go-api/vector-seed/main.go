@@ -87,7 +87,7 @@ func main() {
 		log.Fatal("failed to create genai client", err)
 	}
 	defer genaiClient.Close()
-	em := genaiClient.EmbeddingModel("embedding-001")
+	em := genaiClient.EmbeddingModel("text-embedding-004")
 
 	ids := make([]int64, 0)
 	vectors := make([][]float32, 0)
@@ -104,7 +104,8 @@ func main() {
 
 		ids = append(ids, id)
 
-		str := name + " " + description + " " + category + " " + fmt.Sprintf("%v", tags) + " " + fmt.Sprintf("%v", amenities) + " " + fmt.Sprintf("%v", openingHours)
+		// str := name + "\n" + description + "\n" + category + "\n" + strings.Join(tags, ",") + "\n" + strings.Join(amenities, ",") + "\n" + fmt.Sprintf("%v", openingHours)
+		str := name + "\n" + description
 		emResult, err := em.EmbedContent(ctx, genai.Text(str))
 		if err != nil {
 			log.Fatal("failed to embed content", err)
@@ -119,7 +120,7 @@ func main() {
 		log.Fatal("fail to insert data", err)
 	}
 
-	index, err := entity.NewIndexAUTOINDEX(entity.MetricType("L2"))
+	index, err := entity.NewIndexAUTOINDEX(entity.MetricType("COSINE"))
 	if err != nil {
 		log.Fatal("fail to create index", err)
 	}
