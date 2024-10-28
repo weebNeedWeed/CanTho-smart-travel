@@ -5,8 +5,15 @@ class DestinationApiClient extends BaseApiClient {
     return this.get("/destinations/:geojson");
   }
 
-  getAllDests() {
-    return this.get("/destinations");
+  getAllDests(ids: number[] = []) {
+    return this.client.get("/destinations", {
+      params: {
+        ids,
+      },
+      paramsSerializer: {
+        indexes: null, // brackets but no indexes
+      },
+    });
   }
 
   getAllDestCategories() {

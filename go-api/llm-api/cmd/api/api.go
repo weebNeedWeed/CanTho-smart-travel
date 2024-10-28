@@ -31,7 +31,7 @@ func (a *application) run(mux *http.ServeMux) error {
 		IdleTimeout:  time.Minute,
 	}
 
-	fmt.Printf("server is listening on %s", a.config.addr)
+	fmt.Printf("server is listening on %s\n", a.config.addr)
 
 	return srv.ListenAndServe()
 }

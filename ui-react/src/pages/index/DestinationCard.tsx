@@ -50,8 +50,8 @@ export default function DestinationCard(props: DestinationCardProps) {
         <Card padding="xs" radius="xs" className="w-full">
           <Card.Section>
             <Carousel withIndicators height={200}>
-              {props.destination.photos.map((p: any) => (
-                <Carousel.Slide>
+              {props.destination.photos.map((p: any, i: number) => (
+                <Carousel.Slide key={i}>
                   <Image src={import.meta.env.VITE_IMAGE_BASE_URL + p} />
                 </Carousel.Slide>
               ))}

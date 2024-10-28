@@ -20,14 +20,33 @@ public class DestinationsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllDests()
+    public async Task<IActionResult> GetAllDests([FromQuery] int[]? ids)
     {
-        var dests = await _appDbContext.Destinations
+        var dests = _appDbContext.Destinations
             .Include(x => x.DestinationCategory)
             .Include(x => x.CommuneWard)
             .ThenInclude(x => x.DistrictCounty)
-            .ToListAsync();
-        return Ok(dests);
+            .AsQueryable();
+
+        if (ids is not null && ids.Length > 0)
+        {
+            dests = dests.Where(x => ids.Contains(x.Id));
+        }
+
+        var destsAsList = await dests.ToListAsync();
+
+        if (ids is not null && ids.Length > 0)
+        {
+            var results = new List<Destination>();
+            foreach (var id in ids)
+            {
+                results.Add(destsAsList.Single(x => x.Id == id));
+            }
+
+            return Ok(results);
+        }
+
+        return Ok(destsAsList);
     }
     
     [HttpGet(":geojson")]

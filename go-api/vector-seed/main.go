@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/google/generative-ai-go/genai"
@@ -17,11 +18,11 @@ import (
 )
 
 const (
-	milvusAddr          = "https://in03-74c9fd9a603e5e1.serverless.gcp-us-west1.cloud.zilliz.com"
-	milvusUserPass      = "db_74c9fd9a603e5e1"
-	collectionName      = "destination"
-	dim                 = 768
-	idCol, embeddingCol = "id", "embeddings"
+	milvusAddr                     = "https://in03-74c9fd9a603e5e1.serverless.gcp-us-west1.cloud.zilliz.com"
+	milvusUserPass                 = "db_74c9fd9a603e5e1"
+	collectionName                 = "destination"
+	dim                            = 768
+	idCol, embeddingCol, destIdCol = "id", "embeddings", "destId"
 )
 
 const (
@@ -35,7 +36,7 @@ const geminiApiKey = "AIzaSyAIBjBgJQR-zHurK7xHLmU8t3nYLizuLBQ"
 
 func main() {
 	ctx := context.Background()
-	ctx, ctxCancel := context.WithTimeout(ctx, 15*time.Second)
+	ctx, ctxCancel := context.WithTimeout(ctx, time.Minute)
 	defer ctxCancel()
 
 	c, err := client.NewClient(ctx, client.Config{
@@ -57,9 +58,10 @@ func main() {
 
 	schema := entity.NewSchema().WithName(collectionName).
 		// currently primary key field is compulsory, and only int64 is allowed
-		WithField(entity.NewField().WithName(idCol).WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
+		WithField(entity.NewField().WithName(idCol).WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true)).
 		// also the vector field is needed
-		WithField(entity.NewField().WithName(embeddingCol).WithDataType(entity.FieldTypeFloatVector).WithDim(dim))
+		WithField(entity.NewField().WithName(embeddingCol).WithDataType(entity.FieldTypeFloatVector).WithDim(dim)).
+		WithField(entity.NewField().WithName(destIdCol).WithDataType(entity.FieldTypeInt64))
 
 	err = c.CreateCollection(ctx, schema, entity.DefaultShardNumber)
 	if err != nil {
@@ -89,7 +91,7 @@ func main() {
 	defer genaiClient.Close()
 	em := genaiClient.EmbeddingModel("text-embedding-004")
 
-	ids := make([]int64, 0)
+	destIds := make([]int64, 0)
 	vectors := make([][]float32, 0)
 
 	for rows.Next() {
@@ -102,20 +104,45 @@ func main() {
 			log.Fatal("failed to scan row", err)
 		}
 
-		ids = append(ids, id)
+		descChunks := makeChunks(description)
+		for _, chunk := range descChunks {
+			destIds = append(destIds, id)
+			emResult, err := em.EmbedContent(ctx, genai.Text(chunk))
+			if err != nil {
+				log.Fatal("failed to embed content", err)
+			}
+			vectors = append(vectors, emResult.Embedding.Values)
+		}
 
-		// str := name + "\n" + description + "\n" + category + "\n" + strings.Join(tags, ",") + "\n" + strings.Join(amenities, ",") + "\n" + fmt.Sprintf("%v", openingHours)
-		str := name + "\n" + description
+		destIds = append(destIds, id)
+		//str := name + "\n" + category + "\n" + strings.Join(tags, ",") + "\n" + strings.Join(amenities, ",") + "\n" + fmt.Sprintf("%v", openingHours)
+		str := fmt.Sprintf(`
+		Tên: %s
+		Loại: %s
+		Giờ mở cửa: %v
+		`, name, category, fmt.Sprintf("%v", openingHours))
 		emResult, err := em.EmbedContent(ctx, genai.Text(str))
+		if err != nil {
+			log.Fatal("failed to embed content", err)
+		}
+		vectors = append(vectors, emResult.Embedding.Values)
+
+		destIds = append(destIds, id)
+		//str := name + "\n" + category + "\n" + strings.Join(tags, ",") + "\n" + strings.Join(amenities, ",") + "\n" + fmt.Sprintf("%v", openingHours)
+		str = fmt.Sprintf(`
+		Tiện nghi: %s
+		Thẻ: %s
+		`, strings.Join(tags, ","), strings.Join(amenities, ","))
+		emResult, err = em.EmbedContent(ctx, genai.Text(str))
 		if err != nil {
 			log.Fatal("failed to embed content", err)
 		}
 		vectors = append(vectors, emResult.Embedding.Values)
 	}
 
-	idData := entity.NewColumnInt64(idCol, ids)
+	destIdsData := entity.NewColumnInt64(destIdCol, destIds)
 	vectorData := entity.NewColumnFloatVector(embeddingCol, dim, vectors)
-	_, err = c.Insert(ctx, collectionName, "", idData, vectorData)
+	_, err = c.Insert(ctx, collectionName, "", destIdsData, vectorData)
 	if err != nil {
 		log.Fatal("fail to insert data", err)
 	}
@@ -128,4 +155,19 @@ func main() {
 	if err != nil {
 		log.Fatal("fail to create index", err)
 	}
+}
+
+func makeChunks(desc string) (res []string) {
+	res = make([]string, 0)
+	size := 200
+	ableToChunk := len(desc) / size
+
+	for i := 1; i <= ableToChunk; i++ {
+		str := desc[(size * (i - 1)):(size * i)]
+		res = append(res, strings.ToValidUTF8(str, ""))
+	}
+
+	res = append(res, strings.ToValidUTF8(desc[(size*(ableToChunk)):], ""))
+
+	return
 }
