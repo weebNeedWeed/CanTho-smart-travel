@@ -31,7 +31,7 @@ export default function LoginPage() {
       const result = await defaultAuthApiClient.login(username, password);
       const token = result.data.token;
       localStorage.setItem("access_token", token);
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
     }

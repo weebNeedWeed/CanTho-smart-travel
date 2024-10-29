@@ -34,7 +34,7 @@ export default function RegisterPage() {
       const result = await defaultAuthApiClient.register(username, password);
       const token = result.data.token;
       localStorage.setItem("access_token", token);
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
     }

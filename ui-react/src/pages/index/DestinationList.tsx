@@ -36,7 +36,6 @@ export default function DestinationList({ map }: DestinationListProps) {
       .then((res) => {
         const data = res.data;
         const newMap = new Map<any, any>();
-        console.log(data);
 
         data.forEach((dest: any) => {
           if (!newMap.get(dest.destinationCategoryId)) {
@@ -142,7 +141,13 @@ function SearchInput(props: SearchInputProps) {
         {...props}
       />
 
-      <Drawer opened={opened} onClose={close} title={"Từ khóa: " + keyword}>
+      <Drawer
+        opened={opened}
+        onClose={close}
+        title={"Từ khóa: " + keyword}
+        overlayProps={{ backgroundOpacity: 0.1 }}
+        classNames={{ content: "scrollbar" }}
+      >
         {destinations?.map((dest: any) => (
           <DestinationCard key={dest.id} destination={dest} map={props.map} />
         ))}
