@@ -14,9 +14,9 @@ public class ItineraryItem : BaseEntity
     
     public DateTime StartTime { get; set; }
 
-    public DateTime EndTime { get; set; }
+    public DateTime? EndTime { get; set; }
 
     public int Priority { get; set; }
 
-    public string Notes { get; set; } = null!;
+    public string? Notes { get; set; }
 }

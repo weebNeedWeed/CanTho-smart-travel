@@ -12,9 +12,9 @@ public class Itinerary : BaseEntity
     
     public DateOnly StartDate { get; set; }
     
-    public DateOnly EndDate { get; set; }
+    public DateOnly? EndDate { get; set; }
 
-    public decimal TotalCost { get; set; }
+    public decimal? TotalCost { get; set; }
 
     public ICollection<ItineraryItem> ItineraryItems { get; set; } = [];
 }
