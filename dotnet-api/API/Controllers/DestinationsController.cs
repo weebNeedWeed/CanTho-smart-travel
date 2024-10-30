@@ -62,6 +62,7 @@ public class DestinationsController : ControllerBase
         {
             var attributesTable = new AttributesTable();
             attributesTable.Add(nameof(Destination.Name), dest.Name);
+            attributesTable.Add(nameof(Destination.Id), dest.Id);
             attributesTable.Add(nameof(Destination.DestinationCategoryId), dest.DestinationCategoryId);
             attributesTable.Add("DestinationCategoryName", dest.DestinationCategory.Name);
             var feature = new Feature(dest.Location, attributesTable);

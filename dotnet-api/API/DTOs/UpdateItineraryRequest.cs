@@ -2,8 +2,6 @@ namespace API.DTOs;
 
 public class UpdateItineraryRequest
 {
-    public int ItineraryId { get; set; }
-    
     public string Name { get; set; }
     
     public DateOnly StartDate { get; set; }
@@ -12,13 +10,11 @@ public class UpdateItineraryRequest
 
     public decimal? TotalCost { get; set; }
 
-    public UpdateItineraryItemRequest[]? UpdateItineraryItemRequests { get; set; } = [];
+    public UpdateItineraryItemRequest[]? ItineraryItems { get; set; } = [];
 }
 
 public class UpdateItineraryItemRequest
 {
-    public int ItineraryItemId { get; set; }
-    
     public int DestinationId { get; set; }
     
     public DateTime StartTime { get; set; }

@@ -29,7 +29,14 @@ export default function CurrentLocation(props: CurrentLocationProps) {
   });
 
   return position === null ? null : (
-    <Marker icon={icon} position={position}>
+    <Marker
+      icon={icon}
+      position={position}
+      eventHandlers={{
+        mouseover: (e) => e.target.openPopup(),
+        mouseout: (e) => e.target.closePopup(),
+      }}
+    >
       <Popup>Bạn đang ở đây!</Popup>
     </Marker>
   );

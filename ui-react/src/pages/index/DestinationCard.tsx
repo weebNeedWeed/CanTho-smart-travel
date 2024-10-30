@@ -20,23 +20,24 @@ export default function DestinationCard(props: DestinationCardProps) {
   return (
     <>
       <Card shadow="sm" padding="md" radius="md" withBorder className="mb-4">
-        <Text mb="xs" fw={500}>
+        <Text mb="xs" fw={500} component={"span"}>
           {props.destination.name}
         </Text>
 
-        <Text size="sm" c="dimmed" mb="xs" className="h-20" lineClamp={4}>
+        <Text
+          component={"span"}
+          size="sm"
+          c="dimmed"
+          mb="xs"
+          className="h-20"
+          lineClamp={4}
+        >
           {props.destination.description}
         </Text>
 
-        <div className="w-full flex justify-end gap-x-1">
-          <Button variant="filled" onClick={openDrawer}>
-            Chi tiết
-          </Button>
-
-          <Button variant="filled" color="pink">
-            Thêm
-          </Button>
-        </div>
+        <Button variant="filled" fullWidth onClick={openDrawer}>
+          Xem chi tiết
+        </Button>
       </Card>
 
       <Drawer.Root
@@ -65,24 +66,34 @@ export default function DestinationCard(props: DestinationCardProps) {
                 {props.destination.destinationCategory.name}
               </Badge>
 
-              <Text size="lg" fw={700} mb="xs">
+              <Text component={"span"} size="lg" fw={700} mb="xs">
                 {props.destination.name}
               </Text>
 
               <div className="flex flex-col gap-1">
-                <Text size="md" fw={500}>
+                <Text component={"span"} size="md" fw={500}>
                   Giới thiệu
                 </Text>
-                <Text size="sm" c="dark" className="text-justify">
+                <Text
+                  component={"span"}
+                  size="sm"
+                  c="dark"
+                  className="text-justify"
+                >
                   {props.destination.description}
                 </Text>
               </div>
 
               <div className="flex flex-col gap-1 mt-3">
-                <Text size="md" fw={500}>
+                <Text component={"span"} size="md" fw={500}>
                   Địa chỉ
                 </Text>
-                <Text size="sm" c="dark" className="text-justify">
+                <Text
+                  component={"span"}
+                  size="sm"
+                  c="dark"
+                  className="text-justify"
+                >
                   {props.destination.address}
                   {" / "}
                   {getTypeNameOfCommuneWard(
@@ -100,10 +111,15 @@ export default function DestinationCard(props: DestinationCardProps) {
               </div>
 
               <div className="flex flex-col gap-1 mt-3">
-                <Text size="md" fw={500}>
+                <Text component={"span"} size="md" fw={500}>
                   Giờ mở cửa
                 </Text>
-                <Text size="sm" c="dark" className="text-justify">
+                <Text
+                  component={"span"}
+                  size="sm"
+                  c="dark"
+                  className="text-justify"
+                >
                   {Object.keys(props.destination.openingHours).map((k, i) => (
                     <div key={i}>
                       {k}: {props.destination.openingHours[k]}
@@ -113,7 +129,7 @@ export default function DestinationCard(props: DestinationCardProps) {
               </div>
 
               <div className="flex flex-col gap-1 mt-3">
-                <Text size="md" fw={500}>
+                <Text component={"span"} size="md" fw={500}>
                   Tiện nghi
                 </Text>
                 <div className="flex flex-row flex-wrap gap-x-1.5 gap-y-1">
@@ -126,13 +142,23 @@ export default function DestinationCard(props: DestinationCardProps) {
               </div>
 
               <div className="flex flex-col gap-1 mt-3">
-                <Text size="md" fw={500}>
+                <Text component={"span"} size="md" fw={500}>
                   Liên hệ
                 </Text>
-                <Text size="sm" c="dark" className="text-justify">
+                <Text
+                  component={"span"}
+                  size="sm"
+                  c="dark"
+                  className="text-justify"
+                >
                   Email: {props.destination.email}
                 </Text>
-                <Text size="sm" c="dark" className="text-justify">
+                <Text
+                  component={"span"}
+                  size="sm"
+                  c="dark"
+                  className="text-justify"
+                >
                   Số điện thoại: {props.destination.phoneNumber}
                 </Text>
               </div>

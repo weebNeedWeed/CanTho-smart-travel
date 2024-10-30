@@ -42,6 +42,10 @@ class BaseApiClient {
   delete(endpoint: string, headers: any = {}) {
     return this.client.delete(endpoint, { headers });
   }
+
+  patch(endpoint: string, body: any = {}, headers: any = {}) {
+    return this.client.patch(endpoint, body, { headers });
+  }
 }
 
 export default BaseApiClient;

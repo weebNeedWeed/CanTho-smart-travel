@@ -41,7 +41,7 @@ public class ProfileController: ControllerBase
 
     [Route("itineraries")]
     [HttpPost]
-    public async Task<IActionResult> CreateItinerary([FromBody]CreateItineraryRequest request)
+    public async Task<IActionResult> CreateItineraryWithDefaultOptions()
     {
         var userId = int.Parse(HttpContext.User.Claims
             .First(x => x.Type.Equals(ClaimTypes.Sid))
@@ -50,27 +50,12 @@ public class ProfileController: ControllerBase
         var newItinerary = new Itinerary
         {
             UserId = userId,
-            TotalCost = request.TotalCost,
-            StartDate = request.StartDate,
-            EndDate = request.EndDate,
-            Name = request.Name,
+            TotalCost = 0m,
+            StartDate = DateOnly.FromDateTime(DateTime.Now),
+            EndDate = DateOnly.FromDateTime(DateTime.Now),
+            Name = "Lịch trình mặc định",
             ItineraryItems = [],
         };
-
-        if (request.CreateItineraryItemRequests is not null && request.CreateItineraryItemRequests.Length > 0)
-        {
-            foreach (var item in request.CreateItineraryItemRequests)
-            {
-                newItinerary.ItineraryItems.Add(new ItineraryItem
-                {
-                    DestinationId = item.DestinationId,
-                    Notes = item.Notes,
-                    StartTime = item.StartTime,
-                    EndTime = item.EndTime,
-                    Priority = item.Priority
-                });
-            }
-        }
 
         await _appDbContext.AddAsync(newItinerary);
         await _appDbContext.SaveChangesAsync();
@@ -78,39 +63,37 @@ public class ProfileController: ControllerBase
         return Ok(newItinerary);
     }
     
-    [Route("itineraries")]
+    [Route("itineraries/{id:int}")]
     [HttpPatch]
-    public async Task<IActionResult> UpdateItinerary([FromBody]UpdateItineraryRequest request)
+    public async Task<IActionResult> UpdateItinerary([FromRoute] int id, [FromBody]UpdateItineraryRequest request)
     {
         var newItinerary = await _appDbContext.Itineraries
-            .FirstAsync(x => x.Id == request.ItineraryId);
+            .FirstAsync(x => x.Id == id);
 
-        if (request.UpdateItineraryItemRequests is not null && request.UpdateItineraryItemRequests.Length > 0)
+        _appDbContext.ItineraryItems.RemoveRange(
+            await _appDbContext.ItineraryItems
+                .Where(x => x.ItineraryId == id).ToListAsync());
+        
+        newItinerary.ItineraryItems = [];
+        if (request.ItineraryItems is not null && request.ItineraryItems.Length > 0)
         {
-            foreach (var item in request.UpdateItineraryItemRequests)
+            foreach (var item in request.ItineraryItems)
             {
-                var itiItem = await _appDbContext.ItineraryItems
-                    .FirstOrDefaultAsync(x => x.Id == item.ItineraryItemId);
-                if (itiItem is null)
+                newItinerary.ItineraryItems.Add(new ItineraryItem
                 {
-                    newItinerary.ItineraryItems.Add(new ItineraryItem
-                    {
-                        DestinationId = item.DestinationId,
-                        Notes = item.Notes,
-                        StartTime = item.StartTime,
-                        EndTime = item.EndTime,
-                        Priority = item.Priority
-                    });
-                    continue;
-                }
-
-                itiItem.DestinationId = item.DestinationId;
-                itiItem.Notes = item.Notes;
-                itiItem.StartTime = item.StartTime;
-                itiItem.EndTime = item.EndTime;
-                itiItem.Priority = item.Priority;
+                    DestinationId = item.DestinationId,
+                    Notes = item.Notes,
+                    StartTime = item.StartTime,
+                    EndTime = item.EndTime,
+                    Priority = item.Priority,
+                });
             }
         }
+
+        newItinerary.Name = request.Name;
+        newItinerary.TotalCost = request.TotalCost;
+        newItinerary.StartDate = request.StartDate;
+        newItinerary.EndDate = request.EndDate;
         
         await _appDbContext.SaveChangesAsync();
 
