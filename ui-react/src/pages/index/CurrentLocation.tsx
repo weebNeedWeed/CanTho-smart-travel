@@ -2,12 +2,14 @@ import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
+import { useMapContext } from "../../contexts/MapContext";
 
 interface CurrentLocationProps {
   setMap: (map: L.Map) => void;
 }
 export default function CurrentLocation(props: CurrentLocationProps) {
   const [position, setPosition] = useState<LatLng | null>(null);
+  const { setMap } = useMapContext();
   const map = useMap();
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -20,6 +22,7 @@ export default function CurrentLocation(props: CurrentLocationProps) {
   useEffect(() => {
     if (!map) return;
     props.setMap(map);
+    setMap(map);
   }, [map]);
 
   const icon = L.AwesomeMarkers.icon({

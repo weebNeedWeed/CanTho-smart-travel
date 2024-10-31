@@ -1,13 +1,16 @@
 import { randomId, useDisclosure } from "@mantine/hooks";
 import { NavbarLink } from "./NavBar";
-import { FaPersonWalkingLuggage } from "react-icons/fa6";
+import { FaEye, FaPersonWalkingLuggage } from "react-icons/fa6";
 import {
   ActionIcon,
   Breadcrumbs,
   Button,
   Card,
+  Dialog,
+  Divider,
   Drawer,
   Group,
+  Loader,
   NumberInput,
   rem,
   Text,
@@ -27,8 +30,9 @@ import { LuGripVertical } from "react-icons/lu";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { useForm } from "@mantine/form";
 import { useMapContext } from "../../contexts/MapContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
+import L from "leaflet";
 
 export default function ItinerariesButton() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -100,6 +104,7 @@ interface ItineraryCardProps {
 
 function ItineraryCard({ itinerary, itiRefetch, index }: ItineraryCardProps) {
   const [opened, { open, close }] = useDisclosure(false);
+  const { setItiDestinations } = useMapContext();
   const handleDelete = () => {
     defaultProfileApiClient
       .deleteItinerary(itinerary.id)
@@ -156,7 +161,10 @@ function ItineraryCard({ itinerary, itiRefetch, index }: ItineraryCardProps) {
       </Card>
       <Drawer.Root
         opened={opened}
-        onClose={close}
+        onClose={() => {
+          close();
+          setItiDestinations([]);
+        }}
         classNames={{ content: "scrollbar" }}
       >
         <Drawer.Content>
@@ -179,6 +187,9 @@ interface ItineraryDetailsProps {
 }
 
 function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [dialogOpened, { toggle: toggleDialog, close: closeDialog }] =
+    useDisclosure(false);
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -198,6 +209,8 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
     mapSelecting,
     selectedDestination,
     setItiDestinations,
+    vietnameseRoutes,
+    map,
   } = useMapContext();
 
   useEffect(() => {
@@ -227,6 +240,7 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
   }, [form.values.itineraryItems]);
 
   const handleSubmit = (values: any) => {
+    setIsSubmitting(true);
     defaultProfileApiClient
       .updateItinerary(itinerary.id, {
         ...values,
@@ -242,8 +256,12 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
         itiRefetch();
       })
       .catch(console.log);
-  };
 
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 1500);
+  };
+  console.dir(vietnameseRoutes);
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <TextInput
@@ -295,24 +313,36 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
       </div>
 
       <div className="mt-4">
-        <div className="flex mb-2 items-center justify-start gap-2">
+        <div className="flex mb-2 items-center justify-start gap-x-2">
           <Text fw={600} size="md">
             Lộ trình
           </Text>
-          <ActionIcon
-            variant="filled"
-            onClick={() =>
-              form.insertListItem("itineraryItems", {
-                id: randomId(),
-                destination: { id: -1, name: "" },
-                startTime: new Date(),
-                endTime: new Date(),
-                notes: "",
-              })
-            }
-          >
-            <IoMdAdd style={{ width: "70%", height: "70%" }} />
-          </ActionIcon>
+          <div className="flex gap-x-1.5">
+            <ActionIcon
+              variant="filled"
+              color="gray"
+              onClick={() => {
+                toggleDialog();
+              }}
+            >
+              <FaEye style={{ width: "60%", height: "60%" }} />
+            </ActionIcon>
+
+            <ActionIcon
+              variant="filled"
+              onClick={() =>
+                form.insertListItem("itineraryItems", {
+                  id: randomId(),
+                  destination: { id: -1, name: "" },
+                  startTime: new Date(),
+                  endTime: new Date(),
+                  notes: "",
+                })
+              }
+            >
+              <IoMdAdd style={{ width: "70%", height: "70%" }} />
+            </ActionIcon>
+          </div>
         </div>
 
         <DragDropContext
@@ -451,9 +481,68 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
         </DragDropContext>
       </div>
 
-      <Button type="submit" mt="md" size="md" fullWidth>
-        Lưu
+      <Button type="submit" mt="md" size="md" fullWidth disabled={isSubmitting}>
+        {!isSubmitting ? "Lưu" : <Loader color="blue" size="sm" />}
       </Button>
+
+      <Dialog
+        position={{ top: 10, right: 10 }}
+        opened={dialogOpened}
+        withCloseButton
+        size="lg"
+        onClose={closeDialog}
+        classNames={{ root: "overflow-hidden" }}
+      >
+        <div className="max-h-[500px] overflow-y-auto scrollbar">
+          {vietnameseRoutes.map((r: any, i: number) => (
+            <div className="flex flex-col" key={i}>
+              <span className="font-bold">{r.title}</span>
+              <span className="font-medium">
+                Tổng khoảng cách:{" "}
+                <span className="font-normal">{r.vietnameseDistance}</span>
+              </span>
+              <span className="font-medium">
+                Tổng thời gian:{" "}
+                <span className="font-normal">{r.vietnameseDuration}</span>
+              </span>
+              <span className="font-medium">
+                Chỉ dẫn chi tiết:{" "}
+                <span className="flex flex-col gap-y-1">
+                  {r.steps.map((step, index) => (
+                    <span
+                      className="font-normal underline underline-offset-4 cursor-pointer"
+                      key={index}
+                      onClick={() => {
+                        if (!map) {
+                          return;
+                        }
+
+                        const m = L.marker([
+                          step.startLocation.lat,
+                          step.startLocation.lng,
+                        ]).addTo(map);
+
+                        setTimeout(() => {
+                          m.remove();
+                        }, 3500);
+
+                        map.flyTo(
+                          [step.startLocation.lat, step.startLocation.lng],
+                          17
+                        );
+                      }}
+                    >
+                      {`${index + 1}. ${step.vietnameseInstruction} ` +
+                        `(${step.vietnameseDistance}, ${step.vietnameseDuration})`}
+                    </span>
+                  ))}
+                </span>
+              </span>
+              <Divider my="md" />
+            </div>
+          ))}
+        </div>
+      </Dialog>
     </form>
   );
 }

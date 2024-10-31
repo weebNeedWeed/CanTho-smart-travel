@@ -40,6 +40,7 @@ interface NavbarProps {
 
 export default function NavBar(props: NavbarProps) {
   const [position, setPosition] = useState<LatLng | null>(null);
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos) => {
       const { latitude, longitude } = pos.coords;

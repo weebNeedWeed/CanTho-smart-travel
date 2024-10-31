@@ -4,9 +4,13 @@ interface MapContextType {
   mapSelecting: string;
   selectedDestination: any;
   itiDestinations: any[];
+  vietnameseRoutes: any;
+  map: any;
+  setMap: (m: any) => void;
   setMapSelecting: (string) => void;
   setSelectedDestination: (dest: any) => void;
   setItiDestinations: (a: any[]) => void;
+  setVietnameseRoutes: (route: any) => void;
 }
 
 const MapContext = createContext<MapContextType | null>(null);
@@ -34,6 +38,8 @@ export default function MapContextProvider({
     name: "",
   });
   const [itiDestinations, setItiDestinations] = useState<any[]>([]);
+  const [vietnameseRoutes, setVietnameseRoutes] = useState<any[]>([]);
+  const [map, setMap] = useState<any>(null);
 
   return (
     <MapContext.Provider
@@ -44,6 +50,10 @@ export default function MapContextProvider({
         setSelectedDestination,
         itiDestinations,
         setItiDestinations,
+        vietnameseRoutes,
+        setVietnameseRoutes,
+        map,
+        setMap,
       }}
     >
       {children}
