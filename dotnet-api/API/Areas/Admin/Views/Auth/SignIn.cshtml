@@ -1,0 +1,23 @@
+﻿@model API.Areas.Admin.ViewModels.Auth.LoginViewModel;
+<div style="background-image: url('/images/bg_login.jpg'); background-size: cover; background-position: center; height: 100vh;">
+    <div class="d-flex align-items-center justify-content-center h-100">
+        <div class="border border-dark rounded-3 p-4" style="background-color: rgba(1, 1, 1, 0.5); width: 500px;">
+            <form asp-action="SignIn" asp-controller="Auth" method="post" class="d-flex flex-column align-items-center text-white">
+                <h3 class="mb-4">Đăng nhập</h3>
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                    <input type="text" asp-for="username" id="typeUsername" class="form-control form-control-lg" />
+                    <label class="form-label" asp-for="username" for="typeUsername">Tên đăng nhập</label>
+                </div>
+                <span asp-validation-for="username"></span>
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                    <input type="password" asp-for="password" id="typePasswordX" class="form-control form-control-lg" />
+                    <label class="form-label" asp-for="password" for="typePasswordX">Mật khẩu</label>
+                </div>
+                <span asp-validation-for="password"></span>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!-- Submit button -->
+                <input type="submit" class="btn btn-primary btn-block mb-4" value="Đăng nhập">
+            </form>
+        </div>
+    </div>
+</div>
