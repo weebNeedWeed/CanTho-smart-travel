@@ -1,13 +1,20 @@
 package main
 
-import "log"
+import (
+	"context"
+	"llm-api/internal/db"
+	"log"
+)
 
 func main() {
 	cfg := config{
 		addr: ":9090",
 	}
 
-	app := application{cfg}
+	d := db.NewPostgresConnection(context.Background())
+	defer d.Close()
+
+	app := application{cfg, d}
 
 	mux := app.mount()
 

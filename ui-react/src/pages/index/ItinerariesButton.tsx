@@ -307,6 +307,7 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
           className="w-full"
           size="md"
           mt="md"
+					clearable 
           key={form.key("endDate")}
           {...form.getInputProps("endDate")}
         />

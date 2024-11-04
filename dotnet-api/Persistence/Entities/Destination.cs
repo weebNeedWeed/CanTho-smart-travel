@@ -10,6 +10,8 @@ public class Destination : BaseEntity
     public string Address { get; set; } = null!;
 
     public string Description { get; set; } = null!;
+
+    public string ShortDescription { get; set; } = null!;
     
     public List<string> Tags { get; set; } = [];
 
@@ -22,6 +24,8 @@ public class Destination : BaseEntity
     public Dictionary<string, string> OpeningHours { get; set; } = new(); 
     
     public string Email { get; set; } = null!;
+
+    public Dictionary<string, string> Pricing { get; set; } = new(); 
     
     public int CommuneWardId { get; set; }
 

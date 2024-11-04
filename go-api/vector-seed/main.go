@@ -4,24 +4,23 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/samber/lo"
+	"github.com/sashabaranov/go-openai"
 	"log"
 	"strings"
 	"time"
 
-	"github.com/google/generative-ai-go/genai"
-	"github.com/milvus-io/milvus-sdk-go/v2/client"
-	"github.com/milvus-io/milvus-sdk-go/v2/entity"
-	"google.golang.org/api/option"
-
 	"github.com/lib/pq"
 	"github.com/lib/pq/hstore"
+	"github.com/milvus-io/milvus-sdk-go/v2/client"
+	"github.com/milvus-io/milvus-sdk-go/v2/entity"
 )
 
 const (
 	milvusAddr                     = "https://in03-74c9fd9a603e5e1.serverless.gcp-us-west1.cloud.zilliz.com"
 	milvusUserPass                 = "db_74c9fd9a603e5e1"
 	collectionName                 = "destination"
-	dim                            = 768
+	dim                            = 3072
 	idCol, embeddingCol, destIdCol = "id", "embeddings", "destId"
 )
 
@@ -33,11 +32,14 @@ const (
 )
 
 const geminiApiKey = "AIzaSyAIBjBgJQR-zHurK7xHLmU8t3nYLizuLBQ"
+const openaiApiKey = `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`
+
+var genaiClient = openai.NewClientWithConfig(openai.DefaultAzureConfig(openaiApiKey, "https://models.inference.ai.azure.com"))
 
 func main() {
 	ctx := context.Background()
-	ctx, ctxCancel := context.WithTimeout(ctx, time.Minute)
-	defer ctxCancel()
+	//ctx, ctxCancel := context.WithTimeout(ctx, time.Minute)
+	//defer ctxCancel()
 
 	c, err := client.NewClient(ctx, client.Config{
 		Address:  milvusAddr,
@@ -76,7 +78,7 @@ func main() {
 	defer db.Close()
 
 	rows, err := db.Query(`
-		SELECT Destination."Id",Destination."Name","Description","Tags","Amenities","OpeningHours",DestinationCategory."Name" 
+		SELECT Destination."Id",Destination."Name","Description","Tags","Amenities","OpeningHours",DestinationCategory."Name","Pricing"
 		FROM public."Destination" AS Destination
 		JOIN public."DestinationCategory" AS DestinationCategory 
 		ON Destination."DestinationCategoryId" = DestinationCategory."Id"`)
@@ -84,12 +86,12 @@ func main() {
 		log.Fatal("failed to query postgres", err)
 	}
 
-	genaiClient, err := genai.NewClient(ctx, option.WithAPIKey(geminiApiKey))
-	if err != nil {
-		log.Fatal("failed to create genai client", err)
-	}
-	defer genaiClient.Close()
-	em := genaiClient.EmbeddingModel("text-embedding-004")
+	//genaiClient, err := genai.NewClient(ctx, option.WithAPIKey(geminiApiKey))
+	//if err != nil {
+	//	log.Fatal("failed to create genai client", err)
+	//}
+	//defer genaiClient.Close()
+	//em := genaiClient.EmbeddingModel("text-embedding-004")
 
 	destIds := make([]int64, 0)
 	vectors := make([][]float32, 0)
@@ -98,46 +100,32 @@ func main() {
 		var id int64
 		var name, description, category string
 		var tags, amenities []string
-		var openingHours hstore.Hstore
-		err := rows.Scan(&id, &name, &description, pq.Array(&tags), pq.Array(&amenities), &openingHours, &category)
+		var openingHours, pricing hstore.Hstore
+		err := rows.Scan(&id, &name, &description, pq.Array(&tags), pq.Array(&amenities), &openingHours, &category, &pricing)
 		if err != nil {
 			log.Fatal("failed to scan row", err)
 		}
-
+		e := make([]string, 0)
 		descChunks := makeChunks(description)
 		for _, chunk := range descChunks {
+			e = append(e, chunk)
+		}
+
+		//str := name + "\n" + category + "\n" + strings.Join(tags, ",") + "\n" + strings.Join(amenities, ",") + "\n" + fmt.Sprintf("%v", openingHours)
+		str := fmt.Sprintf("%s %s %v", name, category, fmt.Sprintf("%v", openingHours))
+		e = append(e, str)
+
+		//str := name + "\n" + category + "\n" + strings.Join(tags, ",") + "\n" + strings.Join(amenities, ",") + "\n" + fmt.Sprintf("%v", openingHours)
+		str = fmt.Sprintf(`%s %s %s`, strings.Join(tags, ","), strings.Join(amenities, ","), fmt.Sprintf("%v", pricing))
+		e = append(e, str)
+
+		t := embed(ctx, e)
+		for _, v := range t {
 			destIds = append(destIds, id)
-			emResult, err := em.EmbedContent(ctx, genai.Text(chunk))
-			if err != nil {
-				log.Fatal("failed to embed content", err)
-			}
-			vectors = append(vectors, emResult.Embedding.Values)
+			vectors = append(vectors, v)
 		}
 
-		destIds = append(destIds, id)
-		//str := name + "\n" + category + "\n" + strings.Join(tags, ",") + "\n" + strings.Join(amenities, ",") + "\n" + fmt.Sprintf("%v", openingHours)
-		str := fmt.Sprintf(`
-		Tên: %s
-		Loại: %s
-		Giờ mở cửa: %v
-		`, name, category, fmt.Sprintf("%v", openingHours))
-		emResult, err := em.EmbedContent(ctx, genai.Text(str))
-		if err != nil {
-			log.Fatal("failed to embed content", err)
-		}
-		vectors = append(vectors, emResult.Embedding.Values)
-
-		destIds = append(destIds, id)
-		//str := name + "\n" + category + "\n" + strings.Join(tags, ",") + "\n" + strings.Join(amenities, ",") + "\n" + fmt.Sprintf("%v", openingHours)
-		str = fmt.Sprintf(`
-		Tiện nghi: %s
-		Thẻ: %s
-		`, strings.Join(tags, ","), strings.Join(amenities, ","))
-		emResult, err = em.EmbedContent(ctx, genai.Text(str))
-		if err != nil {
-			log.Fatal("failed to embed content", err)
-		}
-		vectors = append(vectors, emResult.Embedding.Values)
+		time.Sleep(30 * time.Second)
 	}
 
 	destIdsData := entity.NewColumnInt64(destIdCol, destIds)
@@ -170,4 +158,20 @@ func makeChunks(desc string) (res []string) {
 	res = append(res, strings.ToValidUTF8(desc[(size*(ableToChunk)):], ""))
 
 	return
+}
+
+func embed(ctx context.Context, input []string) [][]float32 {
+	resp, err := genaiClient.CreateEmbeddings(
+		ctx,
+		openai.EmbeddingRequest{
+			Input: input,
+			Model: openai.LargeEmbedding3,
+		})
+	if err != nil {
+		panic(err)
+	}
+
+	return lo.Map(resp.Data, func(item openai.Embedding, index int) []float32 {
+		return item.Embedding
+	})
 }

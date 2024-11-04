@@ -28,7 +28,7 @@ export default function HomePage() {
 
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}"
+              url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
             <DestinationMarkers />

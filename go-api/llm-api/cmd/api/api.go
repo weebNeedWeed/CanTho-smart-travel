@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"time"
@@ -8,6 +9,7 @@ import (
 
 type application struct {
 	config config
+	db     *sql.DB
 }
 
 type config struct {
@@ -18,6 +20,7 @@ func (a *application) mount() (mux *http.ServeMux) {
 	mux = http.NewServeMux()
 
 	mux.HandleFunc("GET /search", a.searchHandler)
+	mux.HandleFunc("POST /gen_itinerary", a.generateItineraryHandler)
 
 	return
 }

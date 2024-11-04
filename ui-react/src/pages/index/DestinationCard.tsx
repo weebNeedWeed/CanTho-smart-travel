@@ -130,6 +130,24 @@ export default function DestinationCard(props: DestinationCardProps) {
 
               <div className="flex flex-col gap-1 mt-3">
                 <Text component={"span"} size="md" fw={500}>
+                  Giá cả
+                </Text>
+                <Text
+                  component={"span"}
+                  size="sm"
+                  c="dark"
+                  className="text-justify"
+                >
+                  {Object.keys(props.destination.pricing).map((k, i) => (
+                    <div key={i}>
+                      {k}: {props.destination.pricing[k]}
+                    </div>
+                  ))}
+                </Text>
+              </div>
+
+              <div className="flex flex-col gap-1 mt-3">
+                <Text component={"span"} size="md" fw={500}>
                   Tiện nghi
                 </Text>
                 <div className="flex flex-row flex-wrap gap-x-1.5 gap-y-1">

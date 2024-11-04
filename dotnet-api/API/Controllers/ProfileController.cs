@@ -31,7 +31,8 @@ public class ProfileController: ControllerBase
             .Value);
 
         var itineraries = await _appDbContext.Itineraries
-            .Include(x => x.ItineraryItems)
+            .Include(x => x.ItineraryItems
+                .OrderBy(y => y.Priority))
             .ThenInclude(x => x.Destination)
             .Where(x => x.UserId.Equals(userId))
             .ToListAsync();

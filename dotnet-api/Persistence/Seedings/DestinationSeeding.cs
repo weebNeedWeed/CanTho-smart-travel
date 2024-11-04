@@ -19,6 +19,7 @@ internal static class DestinationSeeding
                     Name = "Cty TNHH Du lịch Sinh Thái Mỹ Khánh",
                     Address = "335 Lộ Vòng Cung",
                     Description = "Vườn du lịch Mỹ Khánh là một điểm du lịch sinh thái nổi tiếng tại Cần Thơ, nơi du khách có thể trải nghiệm không gian miền Tây sông nước đặc trưng. Với diện tích rộng lớn, khu vườn kết hợp giữa thiên nhiên xanh mát và các hoạt động văn hóa truyền thống như đờn ca tài tử, tham quan nhà cổ, trải nghiệm làm chủ điền. Du khách có thể thưởng thức các loại trái cây miền nhiệt đới tươi ngon ngay tại vườn, khám phá các làng nghề truyền thống, và tham gia vào nhiều hoạt động giải trí thú vị. Đây là điểm đến lý tưởng để thư giãn và tận hưởng không gian văn hóa đậm đà bản sắc Nam Bộ.",
+                    ShortDescription = "Vườn du lịch Mỹ Khánh ở Cần Thơ là điểm du lịch sinh thái nổi tiếng, nơi du khách trải nghiệm không gian miền Tây sông nước với các hoạt động văn hóa truyền thống, thưởng thức trái cây tươi và tham gia nhiều hoạt động giải trí thú vị.",
                     Tags = new List<string> 
                     { 
                         "Du lịch", "Sinh thái", "Văn hóa", "Miền Tây", "Cần Thơ", 
@@ -44,7 +45,18 @@ internal static class DestinationSeeding
                     Email = "mykhanhtourist@gmail.com",
                     Location = gf.CreatePoint(new Coordinate(9.990667588558825, 105.70620329476084)),
                     CommuneWardId = CommuneWardSeeding.MyKhanhId,
-                    DestinationCategoryId = DestinationCategorySeeding.KhuDuLichId
+                    DestinationCategoryId = DestinationCategorySeeding.KhuDuLichId,
+                    Pricing =
+                    {
+                        { "Tham gia dự thưởng Đua heo/Đua chó", "20.000đ" },
+                        { "Mồi câu cá sấu", "10.000đ" },
+                        { "Khám phá Cội nguồn đất Phương Nam", "40.000đ" },
+                        { "Khám phá 18 tầng địa ngục", "40.000đ" },
+                        { "Bơi thuyền – đạp vịt", "50.000đ" },
+                        { "Massage cá", "30.000đ" },
+                        { "Tổ hợp trò chơi dân gian", "50.000đ" },
+                        { "Xe điện đụng", "30.000đ" },
+                    }
                 },
                 new Destination
                 {
@@ -55,6 +67,7 @@ internal static class DestinationSeeding
                                   + "Du khách có thể tham gia tát mương bắt cá, chèo xuồng, đi cầu khỉ và khám phá nền văn hóa Óc Eo cổ xưa. "
                                   + "Khu du lịch còn nổi tiếng với những món ăn dân dã như lẩu cua đồng, cá lóc nướng trui và lẩu mắm, mang đậm hương vị miền Tây sông nước. "
                                   + "Đây là điểm đến lý tưởng để trải nghiệm văn hóa và thiên nhiên miền Tây Nam Bộ.",
+                    ShortDescription = "Khu du lịch sinh thái Lung Cột Cầu ở Cần Thơ là điểm đến hấp dẫn với cảnh quan xanh mát, vườn trái cây, các trò chơi dân gian và ẩm thực đậm chất miền Tây, mang đến trải nghiệm văn hóa và thiên nhiên độc đáo.",
                     PhoneNumber = "0123456789",
                     Email = "info@lungcotcau.vn",
                     Tags = new List<string>
@@ -85,9 +98,9 @@ internal static class DestinationSeeding
                     },
                     Photos = new List<string>
                     {
-                        "photo1.jpg",
-                        "photo2.jpg",
-                        "photo3.jpg"
+                        "lcc1.jpg",
+                        "lcc2.jpg",
+                        "lcc3.jpg"
                     },
                     OpeningHours = new Dictionary<string, string>
                     {
@@ -96,6 +109,16 @@ internal static class DestinationSeeding
                     Location = gf.CreatePoint(new Coordinate(9.977074365947647, 105.69742044795295)),
                     CommuneWardId = CommuneWardSeeding.NhonNghiaId,
                     DestinationCategoryId = DestinationCategorySeeding.DiemDuLichId,
+                    Pricing =
+                    {
+                        { "Giá thuê áo bà ba chơi trò chơi", "30.000đ" },
+                        { "Giá thuê áo bà ba chơi trò chơi (dịp lễ)", "50.000đ" },
+                        { "Giá vé tham quan vườn trái cây (người lớn)", "20.000đ" },
+                        { "Giá vé tham quan vườn trái cây (trẻ em)", "10.000đ" },
+                        { "Giá vé chèo xuồng", "20.000đ" },
+                        { "Giá món ăn tối thiểu", "10.000đ" },
+                        { "Giá món ăn tối đa", "50.000đ" }
+                    }
                 },
                 new Destination
                 {
@@ -107,6 +130,7 @@ internal static class DestinationSeeding
                                   "Với diện tích 3 ha, khu du lịch được bao quanh bởi vườn cây ăn trái xanh mát, nơi du khách có thể hái trái cây tươi. " +
                                   "Ngoài ra, các trò chơi dân gian như câu cá, chèo xuồng và đi cầu khỉ mang đến những giây phút vui vẻ cho mọi lứa tuổi. " +
                                   "Nơi đây còn nổi bật với văn hóa và lịch sử phong phú của vùng đất Tây Nam Bộ qua các lễ hội dân gian và sự kiện làng quê.",
+                    ShortDescription = "Làng Du Lịch Sinh Thái Ông Đề tại Đồng Bằng Sông Cửu Long mang đến trải nghiệm thiên nhiên miền Tây với các hoạt động dân gian, tham quan vườn cây ăn trái, và thưởng thức đặc sản địa phương.",
                     Tags = new List<string>
                     {
                         "Du lịch sinh thái", "Đồng quê", "Miền Tây", "Thiên nhiên", "Vườn cây ăn trái",
@@ -120,7 +144,7 @@ internal static class DestinationSeeding
                     PhoneNumber = "0123 456 789",
                     Photos = new List<string>
                     {
-                        "hinh1.jpg", "hinh2.jpg", "hinh3.jpg", "hinh4.jpg", "hinh5.jpg"
+                        "od1.png", "od2.jpg", "od3.jpg"
                     },
                     OpeningHours = new Dictionary<string, string>
                     {
@@ -130,6 +154,17 @@ internal static class DestinationSeeding
                     Location = gf.CreatePoint(new Coordinate(9.996873393488368, 105.70684051173274)),
                     CommuneWardId = CommuneWardSeeding.MyKhanhId,
                     DestinationCategoryId = DestinationCategorySeeding.DiemDuLichId,
+                    Pricing =
+                    {
+                        { "Giá vé vào cổng", "70.000đ" },
+                        { "Trò chơi dân gian, teambuilding (>100 khách)", "430.000đ" },
+                        { "Trò chơi dân gian, teambuilding (>50 khách)", "380.000đ" },
+                        { "Tá mương bắt cá (có ăn trưa)", "360.000đ" },
+                        { "Tá mương bắt cá (không ăn trưa)", "210.000đ" },
+                        { "Chương trình lửa trại (đoàn >20 khách)", "330.000đ" },
+                        { "Chương trình ký ức tuổi thơ (HS cấp I, đoàn >20 khách)", "175.000đ" },
+                        { "Chương trình ký ức tuổi thơ (HS cấp II, đoàn >20 khách)", "195.000đ" }
+                    }
                 },
                 new Destination
                 {
@@ -137,6 +172,7 @@ internal static class DestinationSeeding
                     Name = "Khu Du Lịch Sinh Thái Thới An Đông",
                     Address = "Số 86 Nguyễn Văn Linh, KV Thới Thạnh",
                     Description = "Khu du lịch sinh thái Thới An Đông mang đến trải nghiệm thú vị giữa thiên nhiên xanh mát, với những căn nhà nhỏ trên cây, đồi tùng cổ thụ, và các du thuyền mini để khám phá sông nước. Du khách có thể thưởng thức ẩm thực miền Tây, tham quan vườn bonsai quý hiếm, và tận hưởng không gian yên bình đậm chất miền Tây Nam Bộ.",
+                    ShortDescription = "Khu du lịch sinh thái Thới An Đông mang đến trải nghiệm gần gũi thiên nhiên với nhà trên cây, du thuyền mini, ẩm thực miền Tây và vườn bonsai, tạo không gian yên bình đậm chất miền Tây Nam Bộ.",
                     Tags = new List<string>
                     {
                         "du lịch Cần Thơ", 
@@ -166,9 +202,9 @@ internal static class DestinationSeeding
                     PhoneNumber = "0912345678",
                     Photos = new List<string>
                     {
-                        "photo1.jpg",
-                        "photo2.jpg",
-                        "photo3.jpg"
+                        "tad1.jpg",
+                        "tad2.jpg",
+                        "tad3.jpg"
                     },
                     OpeningHours = new Dictionary<string, string>
                     {
@@ -178,6 +214,14 @@ internal static class DestinationSeeding
                     Location = gf.CreatePoint(new Coordinate(10.060284638599468, 105.70161635396583)),
                     CommuneWardId = CommuneWardSeeding.ThoiAnDongId,
                     DestinationCategoryId = DestinationCategorySeeding.DiemDuLichId,
+                    Pricing =
+                    {
+                        { "Vé vào cổng", "50.000đ" },
+                        { "Thuê nhà trên cây", "200.000đ" },
+                        { "Dịch vụ du thuyền mini", "100.000đ" },
+                        { "Thưởng thức ẩm thực miền Tây", "150.000đ" },
+                        { "Chụp ảnh cổ trang", "80.000đ" }
+                    }
                 },
                 new Destination
                 {
@@ -185,6 +229,7 @@ internal static class DestinationSeeding
                     Name = "Lò Hủ Tiếu Sáu Hoài",
                     Address = "476/14 Lộ Vòng Cung",
                     Description = "Lò Hủ Tiếu Sáu Hoài là một điểm đến thú vị cho du khách khi đến Cần Thơ, nổi tiếng với quy trình làm hủ tiếu truyền thống và món Pizza Hủ Tiếu đặc sắc. Tại đây, bạn không chỉ được tham quan các công đoạn sản xuất hủ tiếu mà còn có cơ hội trải nghiệm thực tế bằng việc tự tay thử làm hủ tiếu. Nơi đây cũng phục vụ những món ăn ngon miệng như hủ tiếu xương và Pizza Hủ Tiếu. Không gian miệt vườn miền Tây tại Lò Hủ Tiếu Sáu Hoài là nơi lý tưởng để tận hưởng không khí thoáng đãng và bình yên.",
+                    ShortDescription = "Lò Hủ Tiếu Sáu Hoài ở Cần Thơ là điểm đến hấp dẫn với quy trình làm hủ tiếu truyền thống, món Pizza Hủ Tiếu độc đáo và không gian miệt vườn yên bình.",
                     Tags = new List<string>
                     {
                         "Địa điểm tham quan", 
@@ -214,9 +259,9 @@ internal static class DestinationSeeding
                     PhoneNumber = "0123 456 789",
                     Photos = new List<string>
                     {
-                        "photo1.jpg",
-                        "photo2.jpg",
-                        "photo3.jpg"
+                        "haitu1.jpg",
+                        "haitu2.jpg",
+                        "haitu3.jpg"
                     },
                     OpeningHours = new Dictionary<string, string>
                     {
@@ -225,7 +270,15 @@ internal static class DestinationSeeding
                     Email = "contact@sauhoai.com",
                     Location = gf.CreatePoint(new Coordinate(9.997395132932548, 105.73984463068943)),
                     CommuneWardId = CommuneWardSeeding.AnBinhId,
-                    DestinationCategoryId = DestinationCategorySeeding.DiemVuonId
+                    DestinationCategoryId = DestinationCategorySeeding.DiemVuonId,
+                    Pricing =
+                    {
+                        { "Hủ tiếu pizza", "50.000đ" },
+                        { "Hủ tiếu xương", "50.000đ" },
+                        { "Nước sâm, sake", "10.000đ" },
+                        { "Cà phê sữa đá", "20.000đ" },  
+                        { "Trà đá", "5.000đ" }          
+                    }
                 },
                 new Destination
                 {
@@ -233,6 +286,7 @@ internal static class DestinationSeeding
                     Name = "Căn nhà màu tím",
                     Address = "Nguyễn Chí Sinh",
                     Description = "Căn nhà màu tím tọa lạc tại Cái Răng, Cần Thơ, là điểm đến lý tưởng cho những ai yêu thích màu tím. Nơi này gây ấn tượng với khung cảnh lãng mạn, từ chiếc xe đạp đến giàn hoa ti-gôn đều ngập tràn sắc tím. Bên cạnh đó, căn nhà còn lưu giữ các vật dụng của nhà Nam Bộ xưa, mang lại cảm giác hoài niệm và yên bình cho du khách. Đây không chỉ là địa điểm check-in tuyệt vời mà còn là nơi để thưởng thức không gian văn hóa độc đáo.",
+                    ShortDescription = "Căn nhà màu tím tại Cái Răng, Cần Thơ, là điểm check-in lãng mạn cho những ai yêu sắc tím, kết hợp nét hoài niệm với không gian văn hóa Nam Bộ xưa.",
                     Tags = new List<string>
                     {
                         "Màu tím", "Cần Thơ", "Cái Răng", "Điểm check-in", 
@@ -249,22 +303,24 @@ internal static class DestinationSeeding
                     PhoneNumber = "0123456789",
                     Photos = new List<string>
                     {
-                        "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg"
+                        "tim1.webp", "tim2.jpg", "tim3.jpg"
                     },
                     OpeningHours = new Dictionary<string, string>
                     {
-                        { "Monday", "08:00 - 18:00" },
-                        { "Tuesday", "08:00 - 18:00" },
-                        { "Wednesday", "08:00 - 18:00" },
-                        { "Thursday", "08:00 - 18:00" },
-                        { "Friday", "08:00 - 18:00" },
-                        { "Saturday", "08:00 - 18:00" },
-                        { "Sunday", "08:00 - 18:00" }
+                        { "Thứ Hai - Chủ Nhật", "6:00 sáng - 6:00 chiều" },
                     },
                     Email = "contact@canhnhamatim.com",
                     Location = gf.CreatePoint(new Coordinate(9.970297438841989, 105.81064269258697)),
                     CommuneWardId = CommuneWardSeeding.TanPhuId,
-                    DestinationCategoryId = DestinationCategorySeeding.DiemVuonId
+                    DestinationCategoryId = DestinationCategorySeeding.DiemVuonId,
+                    Pricing =
+                    {
+                        { "Vé người lớn", "60.000đ" },
+                        { "Vé trẻ em", "30.000đ" },
+                        { "Dịch vụ gửi xe", "5.000đ" },
+                        { "Thuê hướng dẫn viên", "100.000đ" },
+                        { "Dịch vụ chụp ảnh", "20.000đ" }
+                    }
                 });
 
         return modelBuilder;
