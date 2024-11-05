@@ -40,7 +40,7 @@ public class AuthController : ControllerBase
 
         var token = _jwtHelper.GenerateToken(user);
 
-        return Ok(new { Token = token });
+        return Ok(new { Token = token, UserId = user.Id });
     }
 
     [HttpPost("register")]
@@ -64,6 +64,6 @@ public class AuthController : ControllerBase
         
         var token = _jwtHelper.GenerateToken(user);
 
-        return Ok(new { Token = token });
+        return Ok(new { Token = token, UserId = user.Id });
     }
 }

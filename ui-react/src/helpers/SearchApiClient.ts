@@ -8,7 +8,7 @@ class SearchApiClient {
       headers: {
         "Content-Type": "application/json",
       },
-      timeout: 5000,
+      timeout: 15000,
     });
   }
   searchDestination(keyword: string) {
@@ -17,6 +17,10 @@ class SearchApiClient {
         keyword,
       },
     });
+  }
+
+  generateItinerary(payload: any) {
+    return this.client.post("/gen", payload);
   }
 }
 

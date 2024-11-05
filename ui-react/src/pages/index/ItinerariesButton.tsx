@@ -1,8 +1,9 @@
 import { randomId, useDisclosure } from "@mantine/hooks";
 import { NavbarLink } from "./NavBar";
-import { FaEye, FaPersonWalkingLuggage } from "react-icons/fa6";
+import { FaPersonWalkingLuggage } from "react-icons/fa6";
 import {
   ActionIcon,
+  Anchor,
   Breadcrumbs,
   Button,
   Card,
@@ -19,7 +20,7 @@ import {
 } from "@mantine/core";
 import useProfileItineraries from "../../hooks/useProfileItineraries";
 import { FaWalking } from "react-icons/fa";
-import { IoMdAdd, IoMdClose, IoMdTime } from "react-icons/io";
+import { IoMdClose, IoMdTime } from "react-icons/io";
 import { defaultProfileApiClient } from "../../helpers/ProfileApiClient";
 import { DateInput, DateTimePicker } from "@mantine/dates";
 import "@mantine/dates/styles.css";
@@ -33,6 +34,7 @@ import { useMapContext } from "../../contexts/MapContext";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import L from "leaflet";
+import { defaultSearchApiClient } from "../../helpers/SearchApiClient";
 
 export default function ItinerariesButton() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -104,7 +106,7 @@ interface ItineraryCardProps {
 
 function ItineraryCard({ itinerary, itiRefetch, index }: ItineraryCardProps) {
   const [opened, { open, close }] = useDisclosure(false);
-  const { setItiDestinations } = useMapContext();
+  const { setItiDestinations, setCurrentPolyline } = useMapContext();
   const handleDelete = () => {
     defaultProfileApiClient
       .deleteItinerary(itinerary.id)
@@ -164,6 +166,7 @@ function ItineraryCard({ itinerary, itiRefetch, index }: ItineraryCardProps) {
         onClose={() => {
           close();
           setItiDestinations([]);
+          setCurrentPolyline(null);
         }}
         classNames={{ content: "scrollbar" }}
       >
@@ -188,6 +191,7 @@ interface ItineraryDetailsProps {
 
 function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [dialogOpened, { toggle: toggleDialog, close: closeDialog }] =
     useDisclosure(false);
   const form = useForm({
@@ -211,6 +215,8 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
     setItiDestinations,
     vietnameseRoutes,
     map,
+    currentLocation,
+    setCurrentPolyline,
   } = useMapContext();
 
   useEffect(() => {
@@ -259,9 +265,59 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
 
     setTimeout(() => {
       setIsSubmitting(false);
+      form.resetTouched();
     }, 1500);
   };
-  console.dir(vietnameseRoutes);
+  // console.dir(vietnameseRoutes);
+
+  const handleGenerateIti = async () => {
+    setIsGenerating(true);
+    try {
+      const { data } = await defaultSearchApiClient.generateItinerary({
+        userId: parseInt(localStorage.getItem("user_id") || "1"),
+        itineraryId: itinerary.id,
+        userLat: currentLocation!.lat,
+        userLng: currentLocation!.lng,
+      });
+      console.dir(data);
+      form.setValues({
+        endDate: new Date(moment(data.endDate).format("DD/MM/YYYY")),
+        totalCost: data.totalCost,
+      });
+
+      const newDests: any[] = data.itineraryItems.map((i) => {
+        return {
+          id: randomId(),
+          startTime: new Date(i.startTime),
+          endTime: new Date(i.endTime),
+          notes: i.note,
+          destination: {
+            id: i.destinationId,
+            name: i.destinationName,
+            location: {
+              coordinates: [i.lat, i.lng],
+            },
+          },
+        };
+      });
+
+      form.setValues({
+        itineraryItems: newDests,
+      });
+
+      setTimeout(() => {
+        handleSubmit(form.getValues());
+        setItiDestinations(
+          form.getValues().itineraryItems.map((x) => x.destination)
+        );
+      }, 100);
+    } catch (err) {
+      console.log(err);
+    }
+
+    setIsGenerating(false);
+  };
+
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <TextInput
@@ -301,36 +357,52 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
         />
 
         <DateInput
+          withAsterisk
           valueFormat="DD/MM/YYYY"
           label="Ngày kết thúc dự kiến"
           placeholder="1/11/2001"
           className="w-full"
           size="md"
           mt="md"
-					clearable 
           key={form.key("endDate")}
           {...form.getInputProps("endDate")}
         />
       </div>
 
       <div className="mt-4">
-        <div className="flex mb-2 items-center justify-start gap-x-2">
+        <div className="flex mb-2 items-center justify-between">
           <Text fw={600} size="md">
             Lộ trình
           </Text>
-          <div className="flex gap-x-1.5">
-            <ActionIcon
-              variant="filled"
-              color="gray"
+          <div className="flex items-center">
+            <Button
+              variant="transparent"
+              size="xs"
+              onClick={handleGenerateIti}
+              disabled={isGenerating || form.isTouched()}
+            >
+              {isGenerating ? <Loader color="blue" size="xs" /> : "Tạo với AI"}
+            </Button>
+            <Anchor size="md" c="dark" target="_blank" underline="never">
+              |
+            </Anchor>
+            <Button
+              variant="transparent"
+              size="xs"
               onClick={() => {
                 toggleDialog();
               }}
             >
-              <FaEye style={{ width: "60%", height: "60%" }} />
-            </ActionIcon>
+              Xem đường đi
+            </Button>
 
-            <ActionIcon
-              variant="filled"
+            <Anchor size="md" c="dark" target="_blank" underline="never">
+              |
+            </Anchor>
+
+            <Button
+              variant="transparent"
+              size="xs"
               onClick={() =>
                 form.insertListItem("itineraryItems", {
                   id: randomId(),
@@ -341,8 +413,8 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
                 })
               }
             >
-              <IoMdAdd style={{ width: "70%", height: "70%" }} />
-            </ActionIcon>
+              Thêm mới
+            </Button>
           </div>
         </div>
 
@@ -497,7 +569,18 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
         <div className="max-h-[500px] overflow-y-auto scrollbar">
           {vietnameseRoutes.map((r: any, i: number) => (
             <div className="flex flex-col" key={i}>
-              <span className="font-bold">{r.title}</span>
+              <span className="font-bold gap-x-3">{r.title}</span>
+              <Anchor
+                onClick={() => {
+                  setCurrentPolyline(r.polyline);
+                  map.flyTo(r.polyline[0]);
+                }}
+                component="span"
+                size="md"
+                underline="hover"
+              >
+                Hiện đường đi
+              </Anchor>
               <span className="font-medium">
                 Tổng khoảng cách:{" "}
                 <span className="font-normal">{r.vietnameseDistance}</span>
@@ -527,6 +610,7 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
                           m.remove();
                         }, 3500);
 
+                        setCurrentPolyline(r.polyline);
                         map.flyTo(
                           [step.startLocation.lat, step.startLocation.lng],
                           17

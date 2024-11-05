@@ -1,0 +1,18 @@
+Your response must be in JSON and follow the schema below, each value must be Vietnamese:
+```json
+{
+    "endDate": "DD-MM-YYYY", // The end date (prediction) of an itinerary
+    "totalCost": "float", // the total cost (Viet Nam Dong) (prediction) of an itinerary
+    "itineraryItems": [ // an array of itinerary items
+        {
+            "destinationId": "int", // the destination id provided to you (must be matched with data I have provided)
+            "destinationName": "string", // the destination name provided to you (must be matched with data I have provided)
+            "startTime": "ISO 8601", // The start time (prediction) of an item
+            "endTime": "ISO 8601", // The end time (prediction) of an item
+            "priority": "int", // the order of an item, this will be used to sort a list
+            "note": "" // Explain why you recommended the destination and show the cost for this item in around 20 words.
+        }
+    ]
+}
+```
+

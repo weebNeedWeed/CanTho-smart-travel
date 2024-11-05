@@ -9,12 +9,13 @@ interface CurrentLocationProps {
 }
 export default function CurrentLocation(props: CurrentLocationProps) {
   const [position, setPosition] = useState<LatLng | null>(null);
-  const { setMap } = useMapContext();
+  const { setMap, setCurrentLocation } = useMapContext();
   const map = useMap();
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos) => {
       const { latitude, longitude } = pos.coords;
       setPosition(new LatLng(latitude, longitude));
+      setCurrentLocation(new LatLng(latitude, longitude));
       map.flyTo([latitude, longitude], 17);
     });
   }, []);

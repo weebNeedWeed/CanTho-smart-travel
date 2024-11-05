@@ -1,3 +1,4 @@
+import { LatLng } from "leaflet";
 import { createContext, useContext, useState } from "react";
 
 interface MapContextType {
@@ -6,6 +7,10 @@ interface MapContextType {
   itiDestinations: any[];
   vietnameseRoutes: any;
   map: any;
+  currentLocation: LatLng | null;
+  currentPolyline: LatLng[] | null;
+  setCurrentPolyline: (v: LatLng[] | null) => void;
+  setCurrentLocation: (v: LatLng) => void;
   setMap: (m: any) => void;
   setMapSelecting: (string) => void;
   setSelectedDestination: (dest: any) => void;
@@ -40,6 +45,8 @@ export default function MapContextProvider({
   const [itiDestinations, setItiDestinations] = useState<any[]>([]);
   const [vietnameseRoutes, setVietnameseRoutes] = useState<any[]>([]);
   const [map, setMap] = useState<any>(null);
+  const [currentLocation, setCurrentLocation] = useState<LatLng | null>(null);
+  const [currentPolyline, setCurrentPolyline] = useState<LatLng[] | null>(null);
 
   return (
     <MapContext.Provider
@@ -54,6 +61,10 @@ export default function MapContextProvider({
         setVietnameseRoutes,
         map,
         setMap,
+        currentLocation,
+        setCurrentLocation,
+        currentPolyline,
+        setCurrentPolyline,
       }}
     >
       {children}

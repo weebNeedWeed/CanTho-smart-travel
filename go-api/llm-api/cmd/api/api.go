@@ -20,7 +20,7 @@ func (a *application) mount() (mux *http.ServeMux) {
 	mux = http.NewServeMux()
 
 	mux.HandleFunc("GET /search", a.searchHandler)
-	mux.HandleFunc("POST /gen_itinerary", a.generateItineraryHandler)
+	mux.HandleFunc("/gen", a.generateItineraryHandler)
 
 	return
 }

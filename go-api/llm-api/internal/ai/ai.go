@@ -22,6 +22,8 @@ func NewGenaiClient(ctx context.Context) *genai.Client {
 }
 
 func NewOpenAIClient() *openai.Client {
-	client := openai.NewClientWithConfig(openai.DefaultAzureConfig(openaiApiKey, "https://models.inference.ai.azure.com"))
+	cfg := openai.DefaultAzureConfig(openaiApiKey, "https://models.inference.ai.azure.com")
+	cfg.APIVersion = "2024-08-01-preview"
+	client := openai.NewClientWithConfig(cfg)
 	return client
 }

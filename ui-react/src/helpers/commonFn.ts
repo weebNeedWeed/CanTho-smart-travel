@@ -1,36 +1,17 @@
 export function getRandomColor(index?: number): string {
   const colors = [
-    "#FF5733", // Bright Orange
-    "#33C3FF", // Bright Sky Blue
-    "#FFC300", // Golden Yellow
-    "#DAF7A6", // Light Green
-    "#FF33B5", // Vibrant Pink
-    "#9D33FF", // Electric Purple
-    "#FF6F61", // Coral Red
-    "#FF1493", // Deep Pink
-    "#32CD32", // Lime Green
-    "#FFD700", // Gold
-    "#1E90FF", // Dodger Blue
-    "#FF4500", // Orange Red
-    "#8A2BE2", // Blue Violet
-    "#00FA9A", // Medium Spring Green
-    "#FF6347", // Tomato Red
-    "#7FFF00", // Chartreuse
-    "#8B0000", // Dark Red
+    "#007AFF", // Electric Blue
+    "#FF0000", // Bright Red
+    "#39FF14", // Neon Green
+    "#FF00FF", // Magenta
+    "#FFA500", // Bright Orange
+    "#00FFFF", // Cyan
+    "#DFFF00", // Lime Yellow
+    "#FF1493", // Vivid Pink
+    "#8A2BE2", // Bright Purple
+    "#30D5C8", // Turquoise
+    "#FFFF00", // Bright Yellow
     "#FF69B4", // Hot Pink
-    "#4B0082", // Indigo
-    "#DC143C", // Crimson
-    "#7CFC00", // Lawn Green
-    "#00CED1", // Dark Turquoise
-    "#BA55D3", // Medium Orchid
-    "#DA70D6", // Orchid
-    "#FF8C00", // Dark Orange
-    "#ADFF2F", // Green Yellow
-    "#4169E1", // Royal Blue
-    "#FF4500", // OrangeRed
-    "#32CD32", // LimeGreen
-    "#20B2AA", // Light Sea Green
-    "#FFDAB9", // Peach Puff
   ];
 
   if (typeof index !== "undefined") {

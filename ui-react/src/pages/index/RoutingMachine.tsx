@@ -6,9 +6,9 @@ import { LatLng } from "leaflet";
 import { getRandomColor, getRoute } from "../../helpers/commonFn";
 
 export default function RoutingMachine() {
-  const { itiDestinations, setVietnameseRoutes } = useMapContext();
+  const { itiDestinations, setVietnameseRoutes, currentPolyline } =
+    useMapContext();
   const [myPosition, setMyPosition] = useState<LatLng | null>(null);
-  const [polylines, setPolylines] = useState<LatLng[][]>([]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -21,7 +21,6 @@ export default function RoutingMachine() {
     if (myPosition === null) return;
 
     (async () => {
-      const lines: LatLng[][] = [];
       const routes: any[] = [];
       const handleData = (i: number, dests: any, data: any) => {
         const ls: LatLng[] = data.data.routes[0].geometry.coordinates.map(
@@ -30,16 +29,17 @@ export default function RoutingMachine() {
           }
         );
 
-        lines.push(ls);
         if (i === 0) {
           routes.push({
             title: "Từ vị trí hiện tại đến " + dests[i].name,
             ...getRoute(data.data),
+            polyline: ls,
           });
         } else {
           routes.push({
             title: `Từ ${dests[i - 1].name} đến ${dests[i].name}`,
             ...getRoute(data.data),
+            polyline: ls,
           });
         }
       };
@@ -75,23 +75,21 @@ export default function RoutingMachine() {
         );
       }
 
-      setPolylines(lines);
       setVietnameseRoutes(routes);
     })();
   }, [itiDestinations, myPosition]);
   return (
     <>
-      {polylines.map((p, i) => (
+      {currentPolyline && (
         <Polyline
-          positions={p}
-          key={i}
+          positions={currentPolyline}
           pathOptions={{
-            color: getRandomColor(i),
+            color: getRandomColor(),
             dashArray: "40 20 10 20",
             weight: 6,
           }}
         />
-      ))}
+      )}
     </>
   );
 }

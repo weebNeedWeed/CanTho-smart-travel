@@ -1,0 +1,25 @@
+Create a personalized itinerary for a user interested in ```{{- .PTags -}}``` and starting from ```{{ .CurrentLocation.Lat }} {{ .CurrentLocation.Lng }}```. Use the following tourist spots, taking into account their distance from the user’s location and arranging them to minimize travel time. Select spots based on user interests, and prioritize those that fit within an itinerary.
+The itinerary must be start from {{.StartDate}} to {{.EndDate}}
+```
+Tourist Spot List:
+{{- range .Dests }}
+<ul>
+    <li>Id: {{.Id}}</li>
+    <li>Name: {{.Name}}</li>
+    <li>Description: {{.ShortDescription}}</li>
+    <li>Tags: {{.Tags}}</li>
+    <li>Amenities: {{.Amenities}}</li>
+    <li>OpeningHours: {{.OpeningHours}}</li>
+    <li>Pricing: {{.Pricing}}</li>
+    <li>Category: {{.DestinationCategoryName}}</li>
+    <li>Latitude: {{.Lat}}</li>
+    <li>Longitude: {{.Long}}</li>
+    <li>Distance Away From Current Location: {{.Distance}} meters</li>
+</ul>
+{{end -}}
+```
+```
+User Budget. Please Ignore the max budget and give me a predicted cost if the max budge is 0.
+min: {{.BMin}}
+max: {{.BMax}}
+```
