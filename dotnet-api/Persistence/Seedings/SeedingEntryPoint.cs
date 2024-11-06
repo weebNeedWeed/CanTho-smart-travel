@@ -10,6 +10,8 @@ internal static class SeedingEntryPoint
             .SeedDistrictCounty()
             .SeedCommuneWard()
             .SeedDestinationCategory()
-            .SeedDestination();
+            .SeedDestination()
+            .SeedAdmin()
+            ;
     }
 }
