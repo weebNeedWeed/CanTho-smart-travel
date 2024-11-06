@@ -11,6 +11,7 @@ internal static class DestinationSeeding
     {
         var gf = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
         
+        // Seed Tourist Spots
         modelBuilder.Entity<Destination>()
             .HasData(
                 new Destination
@@ -323,6 +324,423 @@ internal static class DestinationSeeding
                     }
                 });
 
+        // Hotel
+        modelBuilder.Entity<Destination>()
+            .HasData(
+                new Destination
+                {
+                    Id = 7,
+                    Name = "Khách sạn Sài Gòn Cần Thơ",
+                    Address = "55 Phan Đình Phùng, Bến Ninh Kiều",
+                    Description = "Khách sạn Sài Gòn Cần Thơ là một khách sạn 3 sao nằm tại trung tâm thành phố Cần Thơ. Được xây dựng từ năm 1996 và cải tạo vào năm 2014, khách sạn có không gian sang trọng và hiện đại, đáp ứng mọi nhu cầu lưu trú của du khách. Khách sạn có 52 phòng với các tiện nghi cao cấp như máy lạnh, truyền hình cáp, minibar và ban công riêng. Du khách cũng có thể tận hưởng trung tâm thể dục hiện đại và phòng tập yoga. Khách sạn cung cấp Wi-Fi miễn phí, dịch vụ giặt ủi, và dịch vụ nhận phòng nhanh. Đây là điểm lưu trú lý tưởng cho du khách muốn khám phá vẻ đẹp của thành phố Cần Thơ.",
+                    ShortDescription = "Khách sạn Sài Gòn Cần Thơ với dịch vụ chất lượng và tiện nghi hiện đại, là lựa chọn hàng đầu cho du khách.",
+                    Tags = new List<string> 
+                    {
+                        "Khách sạn", "Nhà hàng", "Bể bơi", "Spa", "Gym", 
+                        "Dịch vụ phòng", "Giặt ủi", "Gần trung tâm", "Thân thiện gia đình", "Wifi miễn phí"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "Wi-Fi miễn phí", "Truyền hình cáp", "Minibar", "Ban công riêng", "Trung tâm thể dục", 
+                        "Phòng yoga", "Dịch vụ giặt là", "Dịch vụ phòng", "Nhà hàng", "Quầy lễ tân 24/7"
+                    },
+                    PhoneNumber = "0292 3838 123",
+                    Photos = new List<string>
+                    {
+                        "kssg1.webp",
+                        "kssg2.jpg",
+                        "kssg3.webp"
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "6:00 sáng - 10:00 tối" },
+                    },
+                    Email = "info@saigoncantho.vn",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Standard Room", "600.000đ" },
+                        { "Deluxe Room", "850.000đ" },
+                        { "Suite Room", "1.200.000d" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.032658226562985, 105.78690793708896)),
+                    CommuneWardId = CommuneWardSeeding.TanAnId,
+                    DestinationCategoryId = DestinationCategorySeeding.LuuTruId,
+                },
+                new Destination
+                {
+                    Id = 8,
+                    Name = "Khách sạn Phương Đông",
+                    Address = "62, Đường 30 tháng 4",
+                    Description = "Khách sạn Phương Đông là một khách sạn 3 sao hiện đại và tiện nghi tại trung tâm thành phố Cần Thơ. Với 50 phòng nghỉ rộng rãi, khách sạn cung cấp các tiện ích đa dạng như nhà hàng, spa, sauna và dịch vụ đưa đón. Du khách có thể dễ dàng di chuyển đến các điểm tham quan nổi tiếng của thành phố. Khách sạn cũng cung cấp các dịch vụ đặt tour, cho thuê xe, và lưu trữ hành lý để mang lại sự thuận tiện nhất cho du khách. Khách sạn Phương Đông là lựa chọn hoàn hảo cho kỳ nghỉ tại Cần Thơ.",
+                    ShortDescription = "Khách sạn 3 sao hiện đại tại trung tâm Cần Thơ với đầy đủ tiện nghi và dịch vụ chất lượng.",
+                    Tags = new List<string> 
+                    {
+                        "khách sạn", "tiện nghi", "gần trung tâm", "thoải mái", "giá hợp lý", 
+                        "phòng đẹp", "dịch vụ tốt", "wifi miễn phí", "nhà hàng", "spa"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "nhà hàng", "quầy bar", "phòng tập gym", "hồ bơi", "spa", 
+                        "sauna", "bãi đậu xe miễn phí", "dịch vụ giặt là", "đưa đón sân bay", "wifi miễn phí"
+                    },
+                    PhoneNumber = "0123-456-789",
+                    Photos = new List<string>
+                    {
+                        "kspd1.webp", "kspd2.webp", "kspd3.jpg",
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "8:00 sáng - 10:00 tối" },
+                    },
+                    Email = "contact@phuongdonghotel.com",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Phòng đơn", "500,000đ" },
+                        { "Phòng đôi", "700,000đ" },
+                        { "Phòng gia đình", "1,000,000đ" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.03019074675382, 105.78016327740107)),
+                    CommuneWardId = CommuneWardSeeding.TanAnId,
+                    DestinationCategoryId = DestinationCategorySeeding.LuuTruId,
+                },
+                new Destination
+                {
+                    Id = 9,
+                    Name = "Khách sạn Kim Thơ",
+                    Address = "1 Ngô Gia Tự",
+                    Description = "Khách sạn Kim Thơ là nơi nghỉ dưỡng hiện đại và tiện nghi nằm tại trung tâm thành phố Cần Thơ, bên bờ sông Hậu thơ mộng. Với dịch vụ phòng chuyên nghiệp và các tiện nghi hiện đại như spa, nhà hàng, quầy bar, khách sạn mang đến một không gian lý tưởng cho du khách muốn khám phá và nghỉ ngơi. Từ đây, bạn dễ dàng di chuyển đến các điểm du lịch nổi tiếng như Bến Ninh Kiều, Chợ nổi Cái Răng và Chùa Ông. Đội ngũ nhân viên thân thiện và chuyên nghiệp luôn sẵn sàng phục vụ 24/7, đảm bảo kỳ nghỉ đáng nhớ cho bạn.",
+                    ShortDescription = "Khách sạn Kim Thơ - điểm dừng chân lý tưởng tại Cần Thơ.",
+                    Tags = new List<string>
+                    {
+                        "Khách sạn", "Nghỉ dưỡng", "Trung tâm thành phố", "Cần Thơ", "Bến Ninh Kiều",
+                        "Chợ nổi", "Dịch vụ 24/7", "Ẩm thực địa phương", "Quầy bar", "Spa thư giãn"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "Wi-Fi miễn phí", "Dịch vụ phòng 24/7", "Spa", "Phòng xông hơi", "Quầy bar",
+                        "Nhà hàng", "Hồ bơi", "Khu vực hút thuốc riêng", "Giặt là", "Dịch vụ xe đưa đón"
+                    },
+                    PhoneNumber = "0292 3736 666",
+                    Photos = new List<string>
+                    {
+                        "kskt1.jpg",
+                        "kskt2.jpg",
+                        "kskt3.jpg"
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "6:00 sáng - 11:00 tối" },
+                    },
+                    Email = "info@kimthohotel.vn",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Standard Room", "700,000đ" },
+                        { "Deluxe Room", "1,200,000đ" },
+                        { "VIP Suite", "2,500,000đ" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.035708064252358, 105.78829216931057)),
+                    CommuneWardId = CommuneWardSeeding.TanAnId,
+                    DestinationCategoryId = DestinationCategorySeeding.LuuTruId,
+                },
+                new Destination
+                {
+                    Id = 10,
+                    Name = "Khách sạn Hậu Giang Cần Thơ",
+                    Address = "34 Đ. Nam Kỳ Khởi Nghĩa",
+                    Description = "Khách sạn Hậu Giang Cần Thơ là một điểm dừng chân lý tưởng cho du khách muốn khám phá vẻ đẹp miền Tây sông nước. Với vị trí thuận tiện ngay tại trung tâm thành phố, khách sạn giúp du khách dễ dàng di chuyển đến các điểm tham quan nổi tiếng như Bến Ninh Kiều, chợ nổi Cái Răng và nhiều địa danh văn hóa khác. Khách sạn được thiết kế hiện đại, cung cấp đầy đủ các tiện nghi từ nhà hàng, quán bar đến phòng họp và spa. Với đội ngũ nhân viên thân thiện, chuyên nghiệp, khách sạn đảm bảo mang lại trải nghiệm lưu trú thoải mái, tiện nghi và ấn tượng cho mỗi du khách ghé thăm.",
+                    ShortDescription = "Khách sạn 3 sao với vị trí lý tưởng tại Cần Thơ, cung cấp đầy đủ tiện nghi và dịch vụ chất lượng.",
+                    Tags = new List<string>
+                    {
+                        "Khách sạn", "Nghỉ dưỡng", "Cần Thơ", "Gần sân bay", "Nhà hàng", 
+                        "Gần trung tâm", "Chợ nổi", "Bến Ninh Kiều", "Phòng họp", "Spa"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "Wi-Fi miễn phí", "Nhà hàng", "Quầy bar", "Dịch vụ phòng", "Phòng họp",
+                        "Spa", "Giặt là", "Trung tâm thể dục", "Bể bơi", "Bãi đậu xe miễn phí"
+                    },
+                    PhoneNumber = "+84 292 123 4567",
+                    Photos = new List<string>
+                    {
+                        "kshg1.webp",
+                        "kshg2.jpg",
+                        "kshg3.jpg"
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "6:00 sáng - 11:00 tối" },
+                    },
+                    Email = "contact@haugianghotel.vn",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Phòng đơn", "500,000đ" },
+                        { "Phòng đôi", "800,000đ" },
+                        { "Phòng gia đình", "1,200,000đ" },
+                        { "Suite", "1,800,000đ" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.032169096391328, 105.78490699439877)),
+                    CommuneWardId = CommuneWardSeeding.TanAnId,
+                    DestinationCategoryId = DestinationCategorySeeding.LuuTruId,
+                });
+        
+        // Restaurant
+        modelBuilder.Entity<Destination>()
+            .HasData(
+                new Destination
+                {
+                    Id = 11,
+                    Name = "Nhà Hàng Vạn Phát Cần Thơ",
+                    Address = "Cồn Khương, Ninh Kiều, Cần Thơ, Việt Nam",
+                    Description = "Nhà hàng Vạn Phát Cần Thơ nằm dọc sông Hậu, là nơi lý tưởng để thưởng thức ẩm thực Tây Đô với hơn 200 món ăn phong phú từ các nền ẩm thực nổi tiếng thế giới. Với không gian rộng rãi, thoáng mát, nhà hàng có khu vực A la carte, bến du thuyền và khu vui chơi trẻ em, mang đến trải nghiệm tiện nghi, thoải mái cho khách hàng. Những món đặc sản như lẩu mắm, lẩu cua đồng, cá lóc nướng và gà ướp mắm nhĩ được chế biến từ nguyên liệu tươi ngon của vùng đồng bằng sông Cửu Long, khiến thực khách không thể quên.",
+                    ShortDescription = "Nơi lý tưởng để thưởng thức ẩm thực sông nước miền Tây và tận hưởng không khí sông Hậu.",
+                    Tags = new List<string>
+                    {
+                        "Ẩm thực địa phương",
+                        "Ẩm thực quốc tế",
+                        "Không gian thoáng mát",
+                        "Phục vụ chuyên nghiệp",
+                        "View sông",
+                        "Có bến du thuyền",
+                        "Thực phẩm tươi ngon",
+                        "Món ăn đặc sản",
+                        "Phù hợp gia đình",
+                        "Gần thiên nhiên"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "Wi-Fi miễn phí",
+                        "Bãi đỗ xe rộng",
+                        "Phục vụ tại bàn",
+                        "Phòng riêng",
+                        "Sân chơi trẻ em",
+                        "Có điều hòa",
+                        "Khu vực hút thuốc",
+                        "Nhà vệ sinh sạch sẽ",
+                        "Khu vực bến du thuyền",
+                        "An ninh đảm bảo"
+                    },
+                    PhoneNumber = "02923123456",
+                    Photos = new List<string>
+                    {
+                        "vp1.png",
+                        "vp2.png",
+                        "vp3.jpg"
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "9:00 sáng - 10:00 tối" },
+                    },
+                    Email = "contact@vanphatrestaurant.com",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Món chính", "100,000 - 300,000đ" },
+                        { "Món tráng miệng", "50,000 - 150,000đ" },
+                        { "Thức uống", "30,000 - 100,000đ" },
+                        { "Combo gia đình", "500,000 - 1,000,000đ" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.062870510896351, 105.78323512275776)),
+                    CommuneWardId = CommuneWardSeeding.CaiKheId,
+                    DestinationCategoryId = DestinationCategorySeeding.AnUongId,
+                },
+                new Destination
+                {
+                    Id = 12,
+                    Name = "Nhà khách số 2",
+                    Address = "5 Đường Hai Bà Trưng",
+                    Description = "Nhà khách số 2 tọa lạc tại vị trí đắc địa ở trung tâm Cần Thơ, gần Bến Ninh Kiều và nhiều địa điểm nổi tiếng. Khách sạn này là lựa chọn lý tưởng cho những ai muốn tận hưởng sự tiện lợi và thoải mái trong không gian yên tĩnh. Với thiết kế thân thiện, nhân viên nhiệt tình và chuyên nghiệp, khách sạn sẽ mang lại cho bạn cảm giác như ở nhà. Từ đây, bạn có thể dễ dàng khám phá các điểm tham quan du lịch và tận hưởng ẩm thực địa phương tại các nhà hàng gần đó.",
+                    ShortDescription = "Khách sạn 1 sao với vị trí trung tâm và tiện ích đầy đủ, phù hợp cho du khách khám phá Cần Thơ.",
+                    Tags = new List<string>
+                    {
+                        "Trung tâm thành phố", "Gần bến tàu", "Ẩm thực địa phương", "Thân thiện với gia đình",
+                        "Dịch vụ chu đáo", "Giá hợp lý", "Thuận tiện di chuyển", "Khung cảnh đẹp",
+                        "Nhiều tiện nghi", "An ninh tốt"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "Wi-Fi miễn phí", "Dịch vụ phòng", "Nhà hàng", "Quán cà phê", "Máy bán hàng tự động",
+                        "Dịch vụ giặt là", "Khu vực hút thuốc", "Bãi đậu xe miễn phí", "Khu vực tiếp khách chung", "Cửa hàng tiện lợi"
+                    },
+                    PhoneNumber = "+84 123 456 789",
+                    Photos = new List<string>
+                    {
+                        "so21.webp", "so22.webp", "so23.webp"
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "8:00 sáng - 11:00 tối" },
+                    },
+                    Email = "contact@nhakhachso2.com",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Phòng đơn", "500,000đ" },
+                        { "Phòng đôi", "700,000đ" },
+                        { "Phòng gia đình", "1,200,000đ" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.029944829731878, 105.78797898465528)),
+                    CommuneWardId = CommuneWardSeeding.TanAnId,
+                    DestinationCategoryId = DestinationCategorySeeding.AnUongId,
+                },
+                new Destination
+                {
+                    Id = 13,
+                    Name = "Nhà hàng Cây Bưởi 2",
+                    Address = "Sông Hậu",
+                    Description = "Nhà hàng Cây Bưởi tại Cần Thơ là một địa điểm nổi bật để khám phá ẩm thực và văn hóa miền Tây sông nước. Với không gian được thiết kế ấm cúng, sử dụng các vật liệu truyền thống, nhà hàng mang đến cảm giác gần gũi và thư thái. Thực đơn đa dạng từ các món lẩu mắm, bánh xèo, đến các món đặc sản như cá ét nướng lá chuối và chuột đồng quay lu. Đội ngũ nhân viên phục vụ tận tâm và chuyên nghiệp, đảm bảo mọi thực khách sẽ có trải nghiệm đáng nhớ. Nhà hàng cũng có các tiết mục nghệ thuật miền Tây đặc sắc.",
+                    ShortDescription = "Nhà hàng Cây Bưởi - không gian ẩm thực miền Tây độc đáo tại Cần Thơ.",
+                    Tags = new List<string> 
+                    { 
+                        "Ẩm thực miền Tây", "Không gian sang trọng", "Nhà hàng truyền thống", 
+                        "Dịch vụ chuyên nghiệp", "Địa điểm tổ chức sự kiện", "Món ăn đặc sản", 
+                        "Trải nghiệm văn hóa", "Thực đơn đa dạng", "Tiệc cưới", "Ẩm thực địa phương" 
+                    },
+                    Amenities = new List<string>
+                    {
+                        "Wifi miễn phí", "Chỗ đậu xe", "Phòng tiệc riêng", "Sân khấu biểu diễn", 
+                        "Hệ thống âm thanh", "Điều hòa nhiệt độ", "Dịch vụ trang trí tiệc", 
+                        "Chỗ ngồi ngoài trời", "Phục vụ tận nơi", "Khu vui chơi trẻ em"
+                    },
+                    PhoneNumber = "0292 123 4567",
+                    Photos = new List<string>
+                    {
+                        "cb1.jpg", "cb2.jpg", "cb3.jpg"
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "8:00 sáng - 11:00 tối" },
+                    },
+                    Email = "contact@caybuoi.com",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Món khai vị", "50,000 - 100,000đ" },
+                        { "Món chính", "100,000 - 300,000đ" },
+                        { "Món tráng miệng", "30,000 - 80,000đ" },
+                        { "Nước uống", "20,000 - 60,000đ" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.04060643527213, 105.79406299661463)),
+                    CommuneWardId = CommuneWardSeeding.CaiKheId,
+                    DestinationCategoryId = DestinationCategorySeeding.AnUongId,
+                });
+
+        // Shopping
+        modelBuilder.Entity<Destination>()
+            .HasData(
+                new Destination
+                {
+                    Id = 14,
+                    Name = "Vincom Plaza Xuân Khánh",
+                    Address = "209 Đường 30 Tháng 4",
+                    Description = "Vincom Plaza Xuân Khánh là một trung tâm thương mại cao cấp nằm tại vị trí đắc địa tại Cần Thơ, tiếp giáp với đường 30/4 và bờ sông Cần Thơ, gần chợ nổi Cái Răng nổi tiếng. Khu tổ hợp này bao gồm tòa tháp 30 tầng, nhiều nhà hàng và khu vui chơi giải trí, thu hút hàng ngàn khách du lịch và cư dân địa phương mỗi ngày. Đây không chỉ là một địa điểm mua sắm sầm uất, mà còn là nơi thư giãn, trải nghiệm phong cách sống hiện đại với đầy đủ tiện nghi và dịch vụ chất lượng cao.",
+                    ShortDescription = "Trung tâm thương mại đẳng cấp tại Cần Thơ, nơi hội tụ nhiều thương hiệu lớn và khu vui chơi giải trí.",
+                    Tags = new List<string>
+                    {
+                        "Mua sắm", "Ẩm thực", "Giải trí", "Thời trang", "Công nghệ",
+                        "Siêu thị", "Khu vui chơi", "Rạp chiếu phim", "Phòng gym", "Sang trọng"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "WiFi miễn phí", "Điều hòa", "Bãi đậu xe", "Khu vực nghỉ ngơi", 
+                        "ATM", "Trung tâm thông tin", "Phòng vệ sinh", "An ninh 24/7",
+                        "Thang máy", "Dịch vụ hỗ trợ khách hàng"
+                    },
+                    PhoneNumber = "+84 292 123 4567",
+                    Photos = new List<string>
+                    {
+                        "vxk1.jpg",
+                        "vxk2.jpg",
+                        "vxk3.jpg",
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "8:00 sáng - 10:00 tối" },
+                    },
+                    Email = "contact@vincomxk.vn",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        ["Vào cửa"] = "miễn phí"
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.024686369926618, 105.77505794603417)),
+                    CommuneWardId = CommuneWardSeeding.XuanKhanhId,
+                    DestinationCategoryId = DestinationCategorySeeding.MuaSamId,
+                },
+                new Destination
+                {
+                    Id = 15,
+                    Name = "Chợ Cổ Cần Thơ",
+                    Address = "Đường Hai Bà Trưng",
+                    Description = "Chợ Cổ Cần Thơ là một điểm du lịch nổi tiếng, mang đậm nét văn hóa và lịch sử của vùng Nam Bộ. Được xây dựng từ năm 1915, chợ đã trải qua nhiều lần trùng tu nhưng vẫn giữ được lối kiến trúc cổ xưa. Nơi đây không chỉ là điểm tham quan hấp dẫn cho du khách mà còn là trung tâm mua sắm đa dạng với nhiều loại hàng hóa, đặc biệt là các món đồ lưu niệm và đặc sản miền Tây. Khi đến chợ, du khách sẽ cảm nhận được không khí nhộn nhịp và sự thân thiện của người dân địa phương.",
+                    ShortDescription = "Chợ cổ hơn 100 năm tuổi, biểu tượng của văn hóa miền Tây Nam Bộ.",
+                    Tags = new List<string>
+                    {
+                        "Lịch sử", "Văn hóa", "Du lịch", "Kiến trúc cổ", "Chợ", "Ẩm thực", "Đặc sản miền Tây", "Lưu niệm", "Du khách", "Tham quan"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "Nhà vệ sinh công cộng", "Wifi miễn phí", "Khu vực nghỉ ngơi", "ATM", "Bãi đỗ xe", 
+                        "Hướng dẫn viên", "Khu vực ăn uống", "Cửa hàng lưu niệm", "Trạm thông tin du lịch", "Dịch vụ đổi tiền"
+                    },
+                    PhoneNumber = "0292-123-4567",
+                    Photos = new List<string>
+                    {
+                        "cho1.jpg", "cho2.jpg", "cho3.jpg"
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "8:00 sáng - 10:00 tối" },
+                    },
+                    Email = "contact@choCanTho.vn",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Vào cổng", "Miễn phí" },
+                        { "Dịch vụ hướng dẫn viên", "50.000 VND/người" },
+                        { "Dịch vụ giữ xe", "5.000 VND/xe" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.0313995810151, 105.78812861127847)),
+                    CommuneWardId = CommuneWardSeeding.TanAnId,
+                    DestinationCategoryId = DestinationCategorySeeding.MuaSamId,
+                });
+
+        // Healthcare
+        modelBuilder.Entity<Destination>()
+            .HasData(
+                new Destination
+                {
+                    Id = 16,
+                    Name = "Khu nghỉ dưỡng Iris Cần Thơ",
+                    Address = "224, Đ 30 tháng 4",
+                    Description = "Iris Cần Thơ là một khu nghỉ dưỡng cao cấp nằm tại trung tâm thành phố Cần Thơ. Với thiết kế hiện đại kết hợp hài hòa với thiên nhiên, nơi đây cung cấp nhiều dịch vụ nghỉ dưỡng đa dạng như spa, massage, hồ bơi, và các tiện ích khác. Từ hệ thống phòng ốc sang trọng cho đến các dịch vụ thư giãn như spa, mát-xa, tắm hơi, Iris Cần Thơ hứa hẹn sẽ mang đến cho du khách một trải nghiệm nghỉ dưỡng đẳng cấp và tuyệt vời. Đội ngũ nhân viên nhiệt tình, chuyên nghiệp sẽ làm bạn hài lòng khi đến nơi đây.",
+                    ShortDescription = "Khu nghỉ dưỡng sang trọng và hiện đại tại Cần Thơ.",
+                    Tags = new List<string>
+                    {
+                        "Nghỉ dưỡng", "Cao cấp", "Spa", "Thư giãn", "Đẳng cấp", 
+                        "Thiên nhiên", "Gia đình", "Massage", "Du lịch", "Phục vụ tận tâm"
+                    },
+                    Amenities = new List<string>
+                    {
+                        "Hồ bơi", "Phòng gym", "Dịch vụ spa", "Nhà hàng", "Wi-Fi miễn phí", 
+                        "Bãi đỗ xe", "Phòng hội nghị", "Dịch vụ giặt ủi", "Quầy bar", "Khu vui chơi trẻ em"
+                    },
+                    PhoneNumber = "+84 123 456 789",
+                    Photos = new List<string>
+                    {
+                        "ir1.jpg",
+                        "ir2.jpg",
+                        "ir3.jpg"
+                    },
+                    OpeningHours = new Dictionary<string, string>
+                    {
+                        { "Thứ Hai - Chủ Nhật", "8:00 sáng - 10:00 tối" },
+                    },
+                    Email = "contact@iriscantho.com",
+                    Pricing = new Dictionary<string, string>
+                    {
+                        { "Dịch vụ spa", "500.000đ/giờ" },
+                        { "Massage", "300.000đ/giờ" }
+                    },
+                    Location = gf.CreatePoint(new Coordinate(10.026980108916064, 105.77623634603417)),
+                    CommuneWardId = CommuneWardSeeding.XuanKhanhId,
+                    DestinationCategoryId = DestinationCategorySeeding.ChamSocSucKhoeId,
+                });
+        
         return modelBuilder;
     }
 }

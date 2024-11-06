@@ -10,6 +10,9 @@ internal static class CommuneWardSeeding
     public const int ThoiAnDongId = 22;
     public const int AnBinhId = 11;
     public const int TanPhuId = 33;
+    public const int TanAnId = 6;
+    public const int CaiKheId = 1;
+    public const int XuanKhanhId = 8;
     
     public static ModelBuilder SeedCommuneWard(this ModelBuilder modelBuilder)
     {
@@ -26,7 +29,7 @@ internal static class CommuneWardSeeding
             // Ninh Kieu District
             new CommuneWard
             {
-                Id = 1, Name = "Cái Khế", Type = CommuneWardType.Ward,
+                Id = CaiKheId, Name = "Cái Khế", Type = CommuneWardType.Ward,
                 DistrictCountyId = DistrictCountySeeding.NinhKieuId
             },
             new CommuneWard
@@ -50,7 +53,7 @@ internal static class CommuneWardSeeding
             },
             new CommuneWard
             {
-                Id = 6, Name = "Tân An", Type = CommuneWardType.Ward,
+                Id = TanAnId, Name = "Tân An", Type = CommuneWardType.Ward,
                 DistrictCountyId = DistrictCountySeeding.NinhKieuId
             },
             new CommuneWard
@@ -60,7 +63,7 @@ internal static class CommuneWardSeeding
             },
             new CommuneWard
             {
-                Id = 8, Name = "Xuân Khánh", Type = CommuneWardType.Ward,
+                Id = XuanKhanhId, Name = "Xuân Khánh", Type = CommuneWardType.Ward,
                 DistrictCountyId = DistrictCountySeeding.NinhKieuId
             },
             new CommuneWard

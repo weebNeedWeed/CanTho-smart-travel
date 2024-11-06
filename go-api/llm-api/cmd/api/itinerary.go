@@ -101,7 +101,8 @@ func (a *application) generateItineraryHandler(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	sp, _ := entity.NewIndexAUTOINDEXSearchParam(1)
+	sp, _ := entity.NewIndexAUTOINDEXSearchParam(2)
+	sp.AddRadius(0.3)
 	vectors := []entity.Vector{entity.FloatVector(tagsAsEmbed.Data[0].Embedding)}
 
 	searchResult, err := c.Search(
@@ -113,7 +114,7 @@ func (a *application) generateItineraryHandler(w http.ResponseWriter, r *http.Re
 		vectors,             // vectors
 		embeddingCol,        // vectorField
 		entity.COSINE,       // metricType
-		20,                  // topK
+		15,                  // topK
 		sp,                  // search params
 	)
 	if err != nil {
@@ -240,7 +241,7 @@ func (a *application) generateItineraryHandler(w http.ResponseWriter, r *http.Re
 				Content: prompt.String(),
 			},
 		},
-		Temperature: 0.4,
+		Temperature: 0.2,
 		N:           1,
 		ResponseFormat: &openai.ChatCompletionResponseFormat{
 			Type: openai.ChatCompletionResponseFormatTypeJSONSchema,

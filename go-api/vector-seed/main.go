@@ -125,7 +125,7 @@ func main() {
 			vectors = append(vectors, v)
 		}
 
-		time.Sleep(30 * time.Second)
+		time.Sleep(10 * time.Second)
 	}
 
 	destIdsData := entity.NewColumnInt64(destIdCol, destIds)

@@ -80,6 +80,21 @@ function getIcon(destinationCategoryId: number) {
       options.icon = "map-location-dot";
       options.markerColor = "cadetblue";
       break;
+    case 4:
+      options.icon = "utensils";
+      options.markerColor = "purple";
+      break;
+    case 5:
+      options.icon = "cart-shopping";
+      options.markerColor = "blue";
+      break;
+    case 6:
+      options.icon = "hot-tub-person";
+      options.markerColor = "green";
+      break;
+    case 7:
+      options.icon = "hotel";
+      options.markerColor = "orange";
   }
 
   return L.AwesomeMarkers.icon(options);

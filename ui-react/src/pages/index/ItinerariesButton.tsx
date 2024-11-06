@@ -237,12 +237,16 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
     });
 
     setTimeout(() => {
-      setItiDestinations(form.values.itineraryItems.map((x) => x.destination));
+      setItiDestinations(
+        form.getValues().itineraryItems.map((x) => x.destination)
+      );
     }, 100);
   }, [selectedDestination]);
 
   useEffect(() => {
-    setItiDestinations(form.values.itineraryItems.map((x) => x.destination));
+    setItiDestinations(
+      form.getValues().itineraryItems.map((x) => x.destination)
+    );
   }, [form.values.itineraryItems]);
 
   const handleSubmit = (values: any) => {

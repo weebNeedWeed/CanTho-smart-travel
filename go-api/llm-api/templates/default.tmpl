@@ -1,5 +1,7 @@
 Create a personalized itinerary for a user interested in ```{{- .PTags -}}``` and starting from ```{{ .CurrentLocation.Lat }} {{ .CurrentLocation.Lng }}```. Use the following tourist spots, taking into account their distance from the user’s location and arranging them to minimize travel time. Select spots based on user interests, and prioritize those that fit within an itinerary.
-The itinerary must be start from {{.StartDate}} to {{.EndDate}}
+The itinerary must be start from 7:00 AM {{.StartDate}} to 8:00 PM {{.EndDate}}.
+You don't have to put all spots into the itinerary, just use the suitable ones.
+The itinerary must have places for breakfast, lunch,...
 ```
 Tourist Spot List:
 {{- range .Dests }}
@@ -18,8 +20,10 @@ Tourist Spot List:
 </ul>
 {{end -}}
 ```
+Please Ignore the max budget and give me a predicted cost if the max budget is zero.
+If the max budget is not zero, please suggest the itinerary that is strict to that budget.
 ```
-User Budget. Please Ignore the max budget and give me a predicted cost if the max budge is 0.
-min: {{.BMin}}
-max: {{.BMax}}
+User Budget.
+min: {{.BMin}} Viet Nam Dong
+max: {{.BMax}} Viet Nam Dong
 ```

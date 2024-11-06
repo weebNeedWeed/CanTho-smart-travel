@@ -8,7 +8,7 @@ class SearchApiClient {
       headers: {
         "Content-Type": "application/json",
       },
-      timeout: 15000,
+      timeout: 20000,
     });
   }
   searchDestination(keyword: string) {
