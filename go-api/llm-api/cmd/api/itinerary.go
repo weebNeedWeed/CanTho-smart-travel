@@ -12,8 +12,8 @@ import (
 	"llm-api/internal/ai"
 	"llm-api/internal/db"
 	"llm-api/internal/helper"
+	"llm-api/templates"
 	"net/http"
-	"path/filepath"
 	"slices"
 	"strings"
 	"text/template"
@@ -188,11 +188,10 @@ func (a *application) generateItineraryHandler(w http.ResponseWriter, r *http.Re
 		panic(err)
 	}
 
-	tmplFolder, _ := filepath.Abs("./templates")
 	var instruction = &bytes.Buffer{}
 	var prompt = &bytes.Buffer{}
 
-	instructionTempl := template.Must(template.ParseFiles(tmplFolder + "/instruction.tmpl"))
+	instructionTempl := template.Must(template.New("instruction").Parse(templates.RawInstruction))
 	err = instructionTempl.Execute(instruction, nil)
 	if err != nil {
 		panic(err)
@@ -223,7 +222,7 @@ func (a *application) generateItineraryHandler(w http.ResponseWriter, r *http.Re
 		}{payload.UserLat, payload.UserLng},
 	}
 
-	prompTempl := template.Must(template.ParseFiles(tmplFolder + "/default.tmpl"))
+	prompTempl := template.Must(template.New("prompt").Parse(templates.RawPrompt))
 	err = prompTempl.Execute(prompt, p)
 	if err != nil {
 		panic(err)
