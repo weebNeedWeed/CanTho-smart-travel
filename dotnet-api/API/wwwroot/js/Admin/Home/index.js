@@ -1,80 +1,80 @@
-﻿// site.js
+﻿
 function initMap(destinations) {
-    // Khởi tạo map
-    const map = L.map('map').setView([10.0452, 105.7469], 13);
+    
+    var map = L.map('map').setView([10.0451, 105.7469], 12);
     var markers = {};
+    var activeCard = null;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
+    var bounds = L.latLngBounds();
 
-    // Thêm markers
-    destinations.forEach(dest => {
-        var marker = L.marker([dest.Latitude, dest.Longitude]).addTo(map);
-        markers[dest.Id] = marker;
-        marker.on('click', () => showInfoCard(dest));
+    destinations.forEach(function (dest) {
+        if (dest.Latitude && dest.Longitude) {
+            var marker = L.marker([dest.Latitude, dest.Longitude]).addTo(map);
+
+            var popupContent = `
+                    <div class="popup-content">
+                        <h3>${dest.Name}</h3>
+                        <p>${dest.Address}</p>
+                        <p>Điện thoại: ${dest.PhoneNumber}</p>
+                        <p>Email: ${dest.Email}</p>
+                    </div>
+                `;
+
+            marker.bindPopup(popupContent);
+            bounds.extend([dest.Latitude, dest.Longitude]);
+            markers[dest.Id] = marker;
+        }
+    });
+
+    if (bounds.isValid()) {
+        map.fitBounds(bounds);
+    }
+
+    // Xử lý đóng/mở sidebar
+    document.getElementById('sidebarToggle').addEventListener('click', function () {
+        document.querySelector('.sidebar').classList.toggle('active');
     });
 
     // Xử lý tìm kiếm
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', (e) => {
-        const searchText = e.target.value.toLowerCase();
-
-        markers.forEach(({ marker, data }) => {
-            if (data.Name.toLowerCase().includes(searchText)) {
-                marker.setOpacity(1);
+    document.getElementById('searchInput').addEventListener('input', function (e) {
+        var searchText = e.target.value.toLowerCase();
+        document.querySelectorAll('.destination-card').forEach(function (card) {
+            var name = card.querySelector('h3').textContent.toLowerCase();
+            var address = card.querySelector('p').textContent.toLowerCase();
+            if (name.includes(searchText) || address.includes(searchText)) {
+                card.style.display = '';
             } else {
-                marker.setOpacity(0.2);
+                card.style.display = 'none';
             }
         });
     });
-}
 
-// Hiển thị thông tin địa điểm
-function showInfoCard(destination) {
-    const card = document.getElementById('infoCard');
+    // Xử lý click trên card
+    document.querySelectorAll('.destination-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+            // Remove active class from previous card
+            if (activeCard) {
+                activeCard.classList.remove('active');
+            }
 
-    // Cập nhật nội dung
-    document.getElementById('destinationImage').src = destination.Photos[0] || 'placeholder.jpg';
-    document.getElementById('destinationName').textContent = destination.Name;
-    document.getElementById('destinationAddress').textContent = destination.Address;
-    document.getElementById('destinationDescription').textContent = destination.Description;
+            // Add active class to clicked card
+            this.classList.add('active');
+            activeCard = this;
 
-    // Hiển thị amenities
-    const amenitiesContainer = document.getElementById('destinationAmenities');
-    amenitiesContainer.innerHTML = '';
-    destination.Amenities.forEach(amenity => {
-        const span = document.createElement('span');
-        span.className = 'tag';
-        span.textContent = amenity;
-        amenitiesContainer.appendChild(span);
+            var destId = this.dataset.id;
+            var destination = destinations.find(d => d.Id == destId);
+
+            if (destination && destination.Latitude && destination.Longitude) {
+                map.setView([destination.Latitude, destination.Longitude], 16);
+                markers[destId].openPopup();
+            }
+        });
     });
 
-    // Hiển thị tags
-    const tagsContainer = document.getElementById('destinationTags');
-    tagsContainer.innerHTML = '';
-    destination.Tags.forEach(tag => {
-        const span = document.createElement('span');
-        span.className = 'tag';
-        span.textContent = tag;
-        tagsContainer.appendChild(span);
-    });
-
-    // Hiển thị giờ mở cửa
-    document.getElementById('destinationHours').textContent = destination.OpeningHours;
-
-    // Hiển thị thông tin liên hệ
-    document.getElementById('destinationContact').innerHTML = `
-        <div>Điện thoại: ${destination.PhoneNumber}</div>
-        <div>Email: ${destination.Email}</div>
-    `;
-
-    card.style.display = 'block';
-}
-
-// Đóng card thông tin
-function closeInfoCard() {
-    document.getElementById('infoCard').style.display = 'none';
+    // Mở sidebar mặc định
+    document.querySelector('.sidebar').classList.add('active');
 }
