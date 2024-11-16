@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,6 +18,9 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.0.0/mdb.min.css"
           rel="stylesheet" />
+    
+
+    @await RenderSectionAsync("CSS", required: false)
 </head>
 <body>
 
@@ -29,6 +33,9 @@
     <!-- MDB -->
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.0.0/mdb.umd.min.js"></script>
+    
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 

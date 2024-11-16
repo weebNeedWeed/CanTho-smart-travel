@@ -1,1 +1,67 @@
-﻿<span>trang chủ</span>
+﻿@model IEnumerable<dynamic>
+@using System.Text.Json
+@{
+    var destinationsJson = JsonSerializer.Serialize(Model);
+}
+<!--css leaflet-->
+@section CSS {
+    <!--Leaflet-->
+    <link rel="stylesheet" href="~/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="~/css/Admin/Home/index.css" />
+}
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Tìm kiếm địa điểm...">
+</div>
+
+<div class="info-card" id="infoCard">
+    <button class="close-btn" onclick="closeInfoCard()">&times;</button>
+    <img id="destinationImage" src="" alt="Destination Image">
+    <h2 id="destinationName"></h2>
+
+    <div class="info-section">
+        <label>Địa chỉ:</label>
+        <div id="destinationAddress"></div>
+    </div>
+
+    <div class="info-section">
+        <label>Mô tả:</label>
+        <div id="destinationDescription"></div>
+    </div>
+
+    <div class="info-section">
+        <label>Tiện ích:</label>
+        <div id="destinationAmenities" class="tags"></div>
+    </div>
+
+    <div class="info-section">
+        <label>Tags:</label>
+        <div id="destinationTags" class="tags"></div>
+    </div>
+
+    <div class="info-section">
+        <label>Giờ mở cửa:</label>
+        <div id="destinationHours"></div>
+    </div>
+
+    <div class="info-section">
+        <label>Liên hệ:</label>
+        <div id="destinationContact"></div>
+    </div>
+</div>
+
+<div id="map"></div>
+
+
+@section Scripts {
+    <!--Leaflet-->
+    <script src="~/leaflet/leaflet.js"></script>
+    <script src="~/js/Admin/Home/index.js"></script>
+    <script>
+        // Truyền dữ liệu từ Model vào JavaScript
+        document.addEventListener('DOMContentLoaded', function () {
+            var destinations = @Html.Raw(destinationsJson);
+            initMap(destinations);
+        });
+    </script>
+}
