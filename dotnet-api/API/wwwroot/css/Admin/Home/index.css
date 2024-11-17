@@ -21,9 +21,9 @@
     flex-direction: column;
 }
 
-.sidebar.active {
-    transform: translateX(0);
-}
+    .sidebar.active {
+        transform: translateX(0);
+    }
 
 .sidebar-content {
     flex-grow: 1;
@@ -45,9 +45,9 @@
     z-index: 1000;
 }
 
-.sidebar-toggle:hover {
-    background: #f0f0f0;
-}
+    .sidebar-toggle:hover {
+        background: #f0f0f0;
+    }
 
 #map {
     flex-grow: 1;
@@ -66,15 +66,15 @@
     transition: all 0.3s ease;
 }
 
-.destination-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+    .destination-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
 
-.destination-card.active {
-    border: 2px solid #4a90e2;
-    background: #f8f9fa;
- }
+    .destination-card.active {
+        border: 2px solid #4a90e2;
+        background: #f8f9fa;
+    }
 
 .tag {
     display: inline-block;
@@ -103,6 +103,6 @@
     padding: 10px;
 }
 
-.popup-content h3 {
-    margin: 0 0 10px 0;
-}
+    .popup-content h3 {
+        margin: 0 0 10px 0;
+    }

@@ -1,8 +1,4 @@
-﻿@model IEnumerable<dynamic>
-@using System.Text.Json
-@{
-    var destinationsJson = JsonSerializer.Serialize(Model);
-}
+﻿
 <!--css leaflet-->
 @section CSS {
     <!--Leaflet-->
@@ -11,39 +7,39 @@
 }
 
 <div class="sidebar">
-        <div class="sidebar-header">
-            <h2>Danh sách địa điểm</h2>
-            <input type="text" class="search-box" placeholder="Tìm kiếm địa điểm..." id="searchInput">
-        </div>
-        <div class="sidebar-content">
-            @foreach (var destination in Model)
-            {
-                <div class="destination-card" data-id="@destination.Id">
-                    <h3>@destination.Name</h3>
-                    <p><strong>Địa chỉ:</strong> @destination.Address</p>
-                    <p>@(destination.Description?.Length > 100 ? destination.Description.Substring(0, 100) + "..." : destination.Description)</p>
-                    
-                    <div>
-                        @foreach (var tag in destination.Tags)
-                        {
-                            <span class="tag">@tag</span>
-                        }
-                    </div>
+    <div class="sidebar-header">
+        <h2>Danh sách địa điểm</h2>
+        <input type="text" class="search-box" placeholder="Tìm kiếm địa điểm..." id="searchInput">
+    </div>
+    <div class="sidebar-content">
+        @foreach (var destination in ViewBag.Destinations)
+        {
+            <div class="destination-card" data-id="@destination.Id">
+                <h3>@destination.Name</h3>
+                <p><strong>Địa chỉ:</strong> @destination.Address</p>
+                <p>@(destination.Description?.Length > 100 ? destination.Description.Substring(0, 100) + "..." : destination.Description)</p>
 
-                    <p><strong>Điện thoại:</strong> @destination.PhoneNumber</p>
-                    <p><strong>Email:</strong> @destination.Email</p>
-
-                    @foreach (var hours in destination.OpeningHours)
+                <div>
+                    @foreach (var tag in destination.Tags)
                     {
-                        <p><small>@hours.Key: @hours.Value</small></p>
+                        <span class="tag">@tag</span>
                     }
                 </div>
-            }
-        </div>
-        <button class="sidebar-toggle" id="sidebarToggle">
-            ≡
-        </button>
+
+                <p><strong>Điện thoại:</strong> @destination.PhoneNumber</p>
+                <p><strong>Email:</strong> @destination.Email</p>
+
+                @foreach (var hours in destination.OpeningHours)
+                {
+                    <p><small>@hours.Key: @hours.Value</small></p>
+                }
+            </div>
+        }
     </div>
+    <button class="sidebar-toggle" id="sidebarToggle">
+        ≡
+    </button>
+</div>
 <div id="map"></div>
 
 
@@ -51,12 +47,9 @@
 @section Scripts {
     <!--Leaflet-->
     <script src="~/leaflet/leaflet.js"></script>
-    <script src="~/js/Admin/Home/index.js"></script>
-    <script>
-        // Truyền dữ liệu từ Model vào JavaScript
-        document.addEventListener('DOMContentLoaded', function () {
-            var destinations = @Html.Raw(destinationsJson);
-            initMap(destinations);
-        });
+    <script id="destination-data" type="application/json">
+        @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Destinations))
     </script>
+    <script src="~/js/Admin/Home/index.js"></script>
+
 }

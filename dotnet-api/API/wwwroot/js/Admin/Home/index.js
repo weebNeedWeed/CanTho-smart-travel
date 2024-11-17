@@ -1,19 +1,17 @@
-﻿
-function initMap(destinations) {
-    
-    var map = L.map('map').setView([10.0451, 105.7469], 12);
+﻿document.addEventListener("DOMContentLoaded", function () {
+    const destinations = JSON.parse(document.getElementById('destination-data').textContent);
+    const map = L.map('map').setView([10.0451618, 105.7468535], 13); // Tọa độ trung tâm Cần Thơ
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
     var markers = {};
     var activeCard = null;
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
     var bounds = L.latLngBounds();
 
     destinations.forEach(function (dest) {
         if (dest.Latitude && dest.Longitude) {
-            var marker = L.marker([dest.Latitude, dest.Longitude]).addTo(map);
+            var marker = L.marker([dest.Longitude, dest.Latitude]).addTo(map);
 
             var popupContent = `
                     <div class="popup-content">
@@ -25,7 +23,7 @@ function initMap(destinations) {
                 `;
 
             marker.bindPopup(popupContent);
-            bounds.extend([dest.Latitude, dest.Longitude]);
+            bounds.extend([dest.Longitude, dest.Latitude]);
             markers[dest.Id] = marker;
         }
     });
@@ -77,4 +75,4 @@ function initMap(destinations) {
 
     // Mở sidebar mặc định
     document.querySelector('.sidebar').classList.add('active');
-}
+})

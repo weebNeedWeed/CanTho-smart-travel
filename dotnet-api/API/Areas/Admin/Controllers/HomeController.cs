@@ -36,7 +36,7 @@ public class HomeController : Controller
             Longitude = d.Location.X
         })
         .ToListAsync();
-
-        return View(destinations);
+        ViewBag.Destinations = destinations;
+        return View();
     }
 }
