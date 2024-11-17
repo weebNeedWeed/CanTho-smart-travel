@@ -25,5 +25,7 @@ public class DestinationValidator : AbstractValidator<DestinationViewModel>
             .WithMessage("Vui lòng chọn danh mục");
         RuleFor(x => x.Tags).NotEmpty()
             .WithMessage("Vui lòng nhập thẻ");
+        RuleFor(x => x.ShortDescription).NotEmpty()
+            .WithMessage("Vui lòng nhập mô tả tóm tắt");
     }
 }
