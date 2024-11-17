@@ -49,9 +49,15 @@ public class DestinationController : Controller
             {
                 {"Thứ 2 - Thứ 7" , "8:00 - 22:00"}
             };
+            Dictionary<string, string> Pricing = new Dictionary<string, string>
+            {
+                {"Dịch vụ" , "Giá"}
+            };
+            newDes.Pricing = Pricing;
             newDes.OpeningHours = TimeOpening;
             newDes.CommuneWardId = destination.CommuneWardId;
             newDes.DestinationCategoryId = destination.DestinationCategoryId;
+            newDes.ShortDescription = destination.ShortDescription;
             newDes.Photos = new List<string>()
             {
                 "no-image.jpg",

@@ -11,6 +11,8 @@ public class DestinationViewModel
 
     public string Description { get; set; } = null!;
 
+    public string ShortDescription { get; set; } = null!;
+
     public List<string> Tags { get; set; } = [];
 
     public List<string> Amenities { get; set; } = [];
