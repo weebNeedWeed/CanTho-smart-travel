@@ -5,13 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Persistence;
+using Newtonsoft.Json;
+using Persistence.Entities;
 
 [Area(AdminAreaName.Value)]
 //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 public class HomeController : Controller
 {
     private readonly AppDbContext _db;
-
     public HomeController(AppDbContext db)
     {
         _db = db;
@@ -39,4 +40,5 @@ public class HomeController : Controller
         ViewBag.Destinations = destinations;
         return View();
     }
+
 }

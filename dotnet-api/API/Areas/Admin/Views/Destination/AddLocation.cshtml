@@ -1,0 +1,88 @@
+﻿@model API.Areas.Admin.ViewModels.DestinationViewModel;
+@section CSS{
+    <link rel="stylesheet" href="~/css/Admin/Destination/create.css"/>
+}
+
+<div class="container">
+    <h1>Thêm Địa Chỉ</h1>
+    <form action="/Admin/Destination/Create" method="post">
+        <div class="form-group">
+            <label asp-for="Name" for="Name">Tên địa điểm</label>
+            <input asp-for="Name" type="text" id="name" name="Name" placeholder="Nhập tên địa điểm" required>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DestinationCategoryId" for="DestinationCategoryId">Danh mục địa điểm</label>
+            <select asp-for="DestinationCategoryId" id="DestinationCategoryId" name="DestinationCategoryId" required>
+                <option value="" selected disabled>Chọn danh mục</option>
+                @foreach (var diadiem in ViewBag.DiaDiem)
+                {
+                    <option value="@diadiem.Id">@diadiem.Name</option>
+                }
+            </select>
+            <span asp-validation-for="DestinationCategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address" for="Address">Địa chỉ</label>
+            <input asp-for="Address" type="text" id="address" name="Address" placeholder="Nhập địa chỉ" required>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" for="description">Mô tả</label>
+            <textarea asp-for="Description" id="description" name="Description" placeholder="Nhập mô tả"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Tags" for="Tags">Thẻ</label>
+            <input asp-for="Tags" type="text" id="tags" name="Tags" placeholder="Nhập thẻ (ví dụ: cafe, nhà hàng)">
+            <span asp-validation-for="Tags" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Amenities" for="Amenities">Tiện nghi</label>
+            <input asp-for="Amenities" type="text" id="amenities" name="Amenities" placeholder="Nhập tiện nghi (ví dụ: WiFi, chỗ đậu xe)">
+            <span asp-validation-for="Amenities" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber" for="PhoneNumber">Số điện thoại</label>
+            <input asp-for="PhoneNumber"  type="tel" id="phone" name="PhoneNumber" placeholder="Nhập số điện thoại">
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" for="Email">Email</label>
+            <input asp-for="Email"  type="email" id="email" name="Email" placeholder="Nhập email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group">
+            <label for="district">Quận</label>
+            <select id="district" name="District" onchange="loadWards(this.value)" required>
+                <option value="" selected disabled>Chọn quận</option>
+                @foreach (var district in ViewBag.Quan)
+                {
+                    <option value="@district.Id">@district.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CommuneWardId" for="CommuneWardId">Phường</label>
+            <select asp-for="CommuneWardId" id="CommuneWardId" name="CommuneWardId" required>
+                <option value="" selected disabled>Chọn phường</option>
+                <!-- Các giá trị sẽ được cập nhật qua AJAX -->
+            </select>
+            <span asp-validation-for="CommuneWardId" class="text-danger"></span>
+        </div>
+        
+        <input asp-for="Latitude" type="hidden" name="Latitude" value="@ViewBag.Latitude" />
+        <input asp-for="Longitude" type="hidden" name="Longitude" value="@ViewBag.Longitude" />
+        <div class="button-group">
+            <button type="submit">Lưu</button>
+            <button type="button" class="cancel" onclick="window.location.href='/Admin/Home/Index'">Hủy</button>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/Admin/Destination/create.js"></script>
+}

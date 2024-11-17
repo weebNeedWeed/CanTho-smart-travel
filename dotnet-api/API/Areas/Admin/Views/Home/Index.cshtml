@@ -10,6 +10,7 @@
     <div class="sidebar-header">
         <h2>Danh sách địa điểm</h2>
         <input type="text" class="search-box" placeholder="Tìm kiếm địa điểm..." id="searchInput">
+        <button id="btnAddLocation" class="sidebar-button">Thêm địa chỉ</button>
     </div>
     <div class="sidebar-content">
         @foreach (var destination in ViewBag.Destinations)
@@ -41,6 +42,7 @@
     </button>
 </div>
 <div id="map"></div>
+
 
 
 

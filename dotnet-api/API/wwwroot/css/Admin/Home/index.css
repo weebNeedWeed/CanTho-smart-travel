@@ -106,3 +106,17 @@
     .popup-content h3 {
         margin: 0 0 10px 0;
     }
+.sidebar-button {
+    display: block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+    .sidebar-button:hover {
+        background-color: #357abd;
+    }

@@ -1,4 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
+    let isPickingLocation = false;
+    let tempMarker = null;
     const destinations = JSON.parse(document.getElementById('destination-data').textContent);
     const map = L.map('map').setView([10.0451618, 105.7468535], 13); // Tọa độ trung tâm Cần Thơ
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -75,4 +77,31 @@
 
     // Mở sidebar mặc định
     document.querySelector('.sidebar').classList.add('active');
-})
+
+    let selectedMarker = null;
+
+    // Nút Thêm địa chỉ
+    document.getElementById('btnAddLocation').addEventListener('click', () => {
+        alert("Hãy chọn vị trí trên bản đồ!");
+
+        // Thêm sự kiện click để chọn địa điểm
+        map.on('click', function (e) {
+            const { lat, lng } = e.latlng;
+
+            // Xóa marker cũ nếu đã có
+            if (selectedMarker) {
+                map.removeLayer(selectedMarker);
+            }
+
+            // Thêm marker mới tại vị trí được chọn
+            selectedMarker = L.marker([lat, lng]).addTo(map);
+
+            // Xác nhận lựa chọn vị trí
+            const isConfirmed = confirm("Bạn đã chọn vị trí này. Tiếp tục thêm địa chỉ?");
+            if (isConfirmed) {
+                // Chuyển đến trang thêm địa điểm với tọa độ
+                window.location.href = `/Admin/Destination/AddLocation?latitude=${lat}&longitude=${lng}`;
+            }
+        });
+    });
+    })
