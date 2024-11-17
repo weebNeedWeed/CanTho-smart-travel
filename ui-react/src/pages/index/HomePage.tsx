@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import { MapContainer, TileLayer, ZoomControl, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.awesome-markers/dist/leaflet.awesome-markers.css";
 import "leaflet.awesome-markers";
@@ -9,6 +9,7 @@ import DestinationMarkers from "./DestinationMarkers";
 import DestinationList from "./DestinationList";
 import MapContextProvider from "../../contexts/MapContext";
 import RoutingMachine from "./RoutingMachine";
+import canThoGeoJson from "./../../assets/cantho.json";
 
 export default function HomePage() {
   const [map, setMap] = useState<L.Map | null>(null);
@@ -36,6 +37,8 @@ export default function HomePage() {
             <RoutingMachine />
 
             <ZoomControl position="bottomright" />
+
+            <GeoJSON data={canThoGeoJson as any} />
           </MapContainer>
         </div>
 

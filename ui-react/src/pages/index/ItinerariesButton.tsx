@@ -285,15 +285,15 @@ function ItineraryDetails({ itinerary, itiRefetch }: ItineraryDetailsProps) {
       });
       console.dir(data);
       form.setValues({
-        endDate: new Date(moment(data.endDate).format("DD/MM/YYYY")),
+        endDate: moment(data.endDate).toDate(),
         totalCost: data.totalCost,
       });
 
       const newDests: any[] = data.itineraryItems.map((i) => {
         return {
           id: randomId(),
-          startTime: new Date(i.startTime),
-          endTime: new Date(i.endTime),
+          startTime: moment(i.startTime).toDate(),
+          endTime: moment(i.endTime).toDate(),
           notes: i.note,
           destination: {
             id: i.destinationId,
